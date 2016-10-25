@@ -1,11 +1,27 @@
 #!/usr/bin/env node
-import { cout, exit, run } from 'ts-publish';
+import { cout, exit, run, getConfig } from 'ts-publish';
+import { readFileSync, writeFileSync } from 'fs';
 import { normalize } from 'path';
 import 'colors';
 import * as yargs from 'yargs';
 
 interface IArgs {
   _: string[];
+}
+
+const pkg = getConfig('package');
+const date = new Date();
+
+function changeVersion(dateValue: number) {
+  const contents = readFileSync('package.json', 'utf8');
+  const lines = contents.split('\n');
+  const newLines = lines.map((line) => {
+    if (line.trim().startsWith('"version"')) {
+      return `  "version": "${pkg.version}-beta.${dateValue}"`;
+    }
+    return line;
+  });
+  writeFileSync('package.json', newLines.join('\n'));
 }
 
 const argv: IArgs = yargs.usage('usage: $0 hook-file')
@@ -56,7 +72,9 @@ run('git status -s', (stdout: string) => {
 });
 
 cout(`${'[COMMIT]'.cyan}\n`);
-run('git commit -m "pre-release"');
+changeVersion(date.valueOf());
+run('git add package.json -f');
+run(`git commit -m "[pre-release:${date.valueOf()}]"`);
 run('git push origin pre-release -f');
 
 cout(`${'[CHECKOUT]'.cyan} ${'master'.green}\n`);
