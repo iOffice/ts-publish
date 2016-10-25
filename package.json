@@ -11,8 +11,9 @@
   },
   "scripts": {
     "build": "tsc",
-    "pre-release": "tsc && node ./build/ts-pre-release.js ./build/_hook.js",
-    "release": "tsc && node ./build/ts-release.js ./build/_hook.js"
+    "move": "mv ./build ./node_modules/ts-publish",
+    "pre-release": "tsc && npm run move && node ./build/ts-pre-release.js ./build/_hook.js",
+    "release": "tsc && npm run move && node ./build/ts-release.js ./build/_hook.js"
   },
   "keywords": [
     "typescript",
