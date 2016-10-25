@@ -25,6 +25,7 @@ function handleBin() {
     throw Error('messages found');
   }
 
+  run('rm -rf ./bin');
   const files = move('build/bin/', '.');
   files.forEach((file) => {
     run(`git add ${file} -f`);
