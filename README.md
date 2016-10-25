@@ -15,7 +15,7 @@ to be compiled. For instance:
     "name": "project-name",
     "files": [
       "src/file1.ts",
-      "src/file2.ts,
+      "src/file2.ts
     ],
     "compilerOptions": {
       "outDir": "./build/lib",
@@ -56,7 +56,7 @@ ts-pre-release path/to/hook/file.js
 Note that we need to provide a js file. This file should declare a `hook` function which
 compiles the typescript files and adds them to `git`. For instance:
 
-```
+```typescript
 import {
   formatResults,
   move,
