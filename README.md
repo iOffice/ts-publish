@@ -83,6 +83,9 @@ export {
 
 ```
 
+NOTE: Before running this command make sure that the `pre-release` branch already exists. This is
+a branch that needs to be set up along with the `production` branch.
+
 ### ts-release
 
 This script works in the same way as the pre-release one. With the exception that it can only
