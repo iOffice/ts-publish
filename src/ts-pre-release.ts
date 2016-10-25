@@ -18,7 +18,7 @@ function changeVersion(dateValue: number) {
   const lines = contents.split('\n');
   const newLines = lines.map((line) => {
     if (_.startsWith(_.trim(line), '"version"')) {
-      return `  "version": "${pkg.version}-beta.${dateValue}"`;
+      return `  "version": "${pkg.version}-beta.${dateValue}",`;
     }
     return line;
   });
