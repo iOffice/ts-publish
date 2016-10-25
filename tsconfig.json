@@ -6,7 +6,6 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "noEmitHelpers": true,
-    "lib": ["es6"],
     "baseUrl": ".",
     "paths": {
       "ts-publish": ["src"]

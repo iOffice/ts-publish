@@ -4,6 +4,7 @@ import { readFileSync, writeFileSync } from 'fs';
 import { normalize } from 'path';
 import 'colors';
 import * as yargs from 'yargs';
+import * as _ from 'lodash';
 
 interface IArgs {
   _: string[];
@@ -16,7 +17,7 @@ function changeVersion(dateValue: number) {
   const contents = readFileSync('package.json', 'utf8');
   const lines = contents.split('\n');
   const newLines = lines.map((line) => {
-    if (line.trim().startsWith('"version"')) {
+    if (_.startsWith(_.trim(line), '"version"')) {
       return `  "version": "${pkg.version}-beta.${dateValue}"`;
     }
     return line;
