@@ -12,9 +12,10 @@ to be compiled. For instance:
 ```json
 [
   {
-    "name": "angular-ts",
+    "name": "project-name",
     "files": [
-      "src/index.ts"
+      "src/file1.ts",
+      "src/file2.ts,
     ],
     "compilerOptions": {
       "outDir": "./build/lib",
@@ -29,8 +30,7 @@ to be compiled. For instance:
       "build-tools/webpack.config.ts"
     ],
     "compilerOptions": {
-      "outDir": "./build",
-      "declaration": true
+      "outDir": "./build"
     }
   }
 ]
@@ -65,7 +65,7 @@ import {
 } from 'ts-publish';
 
 function hook(): void {
-  const projectResult = compileProject('angular-ts', './build-tools/ts-publish', true);
+  const projectResult = compileProject('project-name', './build-tools/ts-publish', true);
   if (projectResult.numMessages) {
     process.stderr.write(formatResults(projectResult.results));
     // throw Error('messages found');
