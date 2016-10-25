@@ -1,0 +1,24 @@
+[
+  {
+    "name": "ts-publish",
+    "files": [
+      "src/index.ts"
+    ],
+    "compilerOptions": {
+      "outDir": "./build/lib",
+      "declaration": true
+    }
+  },
+  {
+    "name": "bin",
+    "files": [
+      "src/ts-compile.ts",
+      "src/ts-pre-release.ts",
+      "src/ts-release.ts"
+    ],
+    "compilerOptions": {
+      "outDir": "./build/bin",
+      "declaration": true
+    }
+  }
+]

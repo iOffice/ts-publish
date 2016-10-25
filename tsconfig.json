@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "declaration": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "noEmitHelpers": true,
+    "baseUrl": ".",
+    "paths": {
+      "ts-publish": ["src"]
+    },
+    "outDir": "build",
+    "rootDir": "src",
+    "target": "es3"
+  },
+  "exclude": [
+    "build",
+    "node_modules"
+  ]
+}
