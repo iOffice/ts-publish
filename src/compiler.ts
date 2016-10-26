@@ -110,17 +110,18 @@ function compile(
     const fileMessages: IFileMessages = results[file.fileName];
     const pos: ts.LineAndCharacter = file.getLineAndCharacterOfPosition(diagnostic.start);
     const message: string = ts.flattenDiagnosticMessageText(diagnostic.messageText, '');
-
-    fileMessages.messages.push({
-      message,
-      line: pos.line + 1,
-      character: pos.character + 1,
-      width: 0,
-      issuer: 'typescript',
-      category: getDiagnosticCategory(diagnostic.category),
-      type: `TS${diagnostic.code}`,
-    });
-    fileMessages.messages.sort((a, b) => a.line - b.line);
+    if (fileMessages) {
+      fileMessages.messages.push({
+        message,
+        line: pos.line + 1,
+        character: pos.character + 1,
+        width: 0,
+        issuer: 'typescript',
+        category: getDiagnosticCategory(diagnostic.category),
+        type: `TS${diagnostic.code}`,
+      });
+      fileMessages.messages.sort((a, b) => a.line - b.line);
+    }
   });
 
   storeModifiedDates(project, results, emittedFiles.map(x => x.path), outDirectory);
