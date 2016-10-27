@@ -12,7 +12,7 @@ function handleLib() {
     throw Error('messages found');
   }
 
-  const files = move('build/lib/*', '.');
+  const files = move('build/lib/', '.');
   files.forEach((file) => {
     run(`git add ${file} -f`);
   });
@@ -26,7 +26,7 @@ function handleBin() {
   }
 
   run('rm -rf ./bin');
-  const files = move('build/bin/', '.');
+  const files = move('build/bin', '.');
   files.forEach((file) => {
     run(`git add ${file} -f`);
   });
