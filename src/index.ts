@@ -12,6 +12,9 @@ import {
 } from './interfaces';
 import { formatResults } from './formatter';
 import { execSync } from 'child_process';
+import * as fs from 'fs';
+import * as pth from 'path';
+import * as _ from 'lodash';
 
 function cout(msg: string): void {
   process.stdout.write(msg);
@@ -30,13 +33,42 @@ function run(cmd: string, callback?: Function): void {
   }
 }
 
-function move(source: string, dest: string): string[] {
-  const result = execSync(`mv ${source} ${dest} --verbose`).toString();
-  const lines = result.split('\n').filter(x => x);
-  return lines.map((line) => {
-    const name = line.split('->')[1].trim();
-    return name.substr(1, name.length - 2);
-  });
+function _move(src: string, dest: string, buf: string[]): void {
+  const stats = fs.statSync(src);
+  if (stats.isFile()) {
+    buf.push(pth.normalize(dest));
+    fs.renameSync(src, pth.normalize(dest));
+  } else if (stats.isDirectory()) {
+    if (_.endsWith(src, '/')) {
+      // move directory contents
+      const files = fs.readdirSync(src);
+      _.each(files, (file) => {
+        const filePath = pth.normalize(`${src}/${file}`);
+        const destPath = pth.normalize(`${dest}/${file}`);
+        const fileStats = fs.statSync(filePath);
+        if (fileStats.isFile()) {
+          buf.push(destPath);
+          fs.renameSync(filePath, destPath);
+        } else if (fileStats.isDirectory()) {
+          fs.mkdirSync(destPath);
+          _move(`${filePath}/`, destPath, buf);
+          fs.rmdirSync(filePath);
+        }
+      });
+    } else {
+      // move whole directory
+      const dirName = pth.basename(src);
+      fs.mkdirSync(pth.normalize(`${dest}/${dirName}`));
+      _move(`${src}/`, pth.normalize(`${dest}/${dirName}`), buf);
+      fs.rmdirSync(src);
+    }
+  }
+}
+
+function move(src: string, dest: string): string[] {
+  const buf: string[] = [];
+  _move(src, dest, buf);
+  return buf;
 }
 
 export {
