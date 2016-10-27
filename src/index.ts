@@ -50,7 +50,9 @@ function _move(src: string, dest: string, buf: string[]): void {
           buf.push(destPath);
           fs.renameSync(filePath, destPath);
         } else if (fileStats.isDirectory()) {
-          fs.mkdirSync(destPath);
+          try {
+            fs.mkdirSync(destPath);
+          } catch (e) {}
           _move(`${filePath}/`, destPath, buf);
           fs.rmdirSync(filePath);
         }
@@ -58,7 +60,9 @@ function _move(src: string, dest: string, buf: string[]): void {
     } else {
       // move whole directory
       const dirName = pth.basename(src);
-      fs.mkdirSync(pth.normalize(`${dest}/${dirName}`));
+      try {
+        fs.mkdirSync(pth.normalize(`${dest}/${dirName}`));
+      } catch (e) {}
       _move(`${src}/`, pth.normalize(`${dest}/${dirName}`), buf);
       fs.rmdirSync(src);
     }
