@@ -3,6 +3,7 @@ import {
   IProjectResults,
   formatResults,
   compileProject,
+  exit,
 } from 'ts-publish';
 import * as yargs from 'yargs';
 
@@ -47,4 +48,4 @@ function _compile(): number {
   return 0;
 }
 
-process.exit(_compile());
+exit(_compile());

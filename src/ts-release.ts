@@ -37,6 +37,7 @@ try {
   hook = require(hookPath);
 } catch (e) {
   cout(`${'[ERROR]'.red} unable to load hook '${hookPath}'\n`);
+  console.log(e.stack);
 }
 
 cout(`${'[HOOK]'.cyan} running...\n`);
@@ -44,6 +45,7 @@ try {
   hook.hook('release');
 } catch (e) {
   cout(`${'[ERROR]'.red} hook error:\n'${e.message}'\n`);
+  console.log(e.stack);
   exit(0);
 }
 

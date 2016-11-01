@@ -21,7 +21,9 @@ function cout(msg: string): void {
 }
 
 function exit(code: number): void {
-  process.exit(code);
+  // Waiting one second before exiting to finish any ongoing async processes.
+  // https://github.com/nodejs/node/issues/7743
+  setTimeout(() => process.exit(code), 1000);
 }
 
 function run(cmd: string, callback?: Function): void {
