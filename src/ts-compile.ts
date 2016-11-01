@@ -34,6 +34,7 @@ function _compile(): number {
     projectResult = compileProject(argv._[0], argv.config || 'ts-publish', argv.force);
   } catch (e) {
     process.stderr.write(e.message);
+    console.log(e.stack);
     return 2;
   }
 

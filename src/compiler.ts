@@ -110,6 +110,9 @@ function compile(
 
   _.each(allDiagnostics, (diagnostic) => {
     const file: ts.SourceFile = diagnostic.file;
+    if (!file || !file.fileName) {
+      return;
+    }
     const fileMessages: IFileMessages = results[file.fileName];
     const pos: ts.LineAndCharacter = file.getLineAndCharacterOfPosition(diagnostic.start);
     const message: string = ts.flattenDiagnosticMessageText(diagnostic.messageText, '');
