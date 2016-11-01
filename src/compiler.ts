@@ -72,6 +72,9 @@ function compile(
     formatter: 'json',
   };
   _.each(emittedFiles, (file) => {
+    if (!file.fileName) {
+      return;
+    }
     const output: ts.EmitOutput = services.getEmitOutput(file.fileName);
     const fileName: string = file.fileName;
     if (!results[fileName]) {
