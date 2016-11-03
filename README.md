@@ -71,7 +71,7 @@ function hook(): void {
     // throw Error('messages found');
   }
 
-  const files = move('build/lib/*', '.');
+  const files = move('build/lib/', '.');
   files.forEach((file) => {
     run(`git add ${file} -f`);
   });
