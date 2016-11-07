@@ -44,6 +44,10 @@ ts-compile build-tools --config path/to/ts-publish
 
 Make sure to not include the `.json` extension when specifying the configuration file.
 
+### ts-trial
+
+
+
 ### ts-pre-release
 
 This script helps us to test our code in the wild. It will build the code and place it in the

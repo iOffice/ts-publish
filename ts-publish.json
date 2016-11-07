@@ -13,6 +13,7 @@
     "name": "bin",
     "files": [
       "src/ts-compile.ts",
+      "src/ts-trial.ts",
       "src/ts-pre-release.ts",
       "src/ts-release.ts"
     ],

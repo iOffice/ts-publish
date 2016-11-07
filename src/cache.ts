@@ -13,12 +13,12 @@ function _parseJSONFile(fileName: string): any {
 
 function getConfig(name: string, path?: string): any {
   const base: string = path ? path : process.cwd();
-  const config: string = `${base}/${name}.json`;
+  const config: string = `${base}/${name}`;
   return _parseJSONFile(config);
 }
 
 function parseTsPublishConfig(path: string) {
-  const tsOptions = getConfig('tsconfig').compilerOptions;
+  const tsOptions = getConfig('tsconfig.json').compilerOptions;
   const projects: IProject[] = getConfig(path);
   _.each(projects, (project) => {
     if (project.compilerOptions) {

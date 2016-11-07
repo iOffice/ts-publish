@@ -5,13 +5,13 @@
   "main": "index.js",
   "typings": "index.d.ts",
   "bin": {
+    "ts-trial": "./bin/ts-trial.js",
     "ts-pre-release": "./bin/ts-pre-release.js",
     "ts-release": "./bin/ts-release.js",
     "ts-compile": "./bin/ts-compile.js"
   },
   "scripts": {
-    "build": "tsc",
-    "move": "rm -rf ./node_modules/ts-publish && cp -R ./build/ ./node_modules/ts-publish/",
+    "trial": "make trial",
     "pre-release": "tsc && npm run move && node ./build/ts-pre-release.js ./build/_hook.js",
     "release": "tsc && npm run move && node ./build/ts-release.js ./build/_hook.js"
   },

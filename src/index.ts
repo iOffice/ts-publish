@@ -20,10 +20,18 @@ function cout(msg: string): void {
   process.stdout.write(msg);
 }
 
-function exit(code: number): void {
+function info(tag: string, msg: string): void {
+  process.stdout.write(`[${tag}] ${msg}\n`);
+}
+
+function exit(code: number, timeout: number = 1000): void {
   // Waiting one second before exiting to finish any ongoing async processes.
   // https://github.com/nodejs/node/issues/7743
-  setTimeout(() => process.exit(code), 1000);
+  if (timeout) {
+    setTimeout(() => process.exit(code), timeout);
+  } else {
+    process.exit(code);
+  }
 }
 
 function run(cmd: string, callback?: Function): void {
@@ -94,5 +102,6 @@ export {
   cout,
   exit,
   run,
+  info,
   move,
 };

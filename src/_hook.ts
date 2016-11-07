@@ -2,39 +2,48 @@ import {
   formatResults,
   move,
   run,
+  cout,
   compileProject,
 } from 'ts-publish';
 
-function handleLib() {
-  const projectResult = compileProject('ts-publish', './ts-publish', true);
+function handleLib(action: string, target: string) {
+  const projectResult = compileProject('ts-publish', './ts-publish.json', true);
   if (projectResult.numMessages) {
-    process.stderr.write(formatResults(projectResult.results));
+    cout(formatResults(projectResult.results));
     throw Error('messages found');
   }
 
-  const files = move('build/lib/', '.');
-  files.forEach((file) => {
-    run(`git add ${file} -f`);
-  });
+  if (action === 'trial') {
+    move('build/lib/', target);
+  } else {
+    const files = move('build/lib/', '.');
+    files.forEach((file) => {
+      run(`git add ${file} -f`);
+    });
+  }
 }
 
-function handleBin() {
-  const projectResult = compileProject('bin', './ts-publish', true);
+function handleBin(action: string, target: string) {
+  const projectResult = compileProject('bin', './ts-publish.json', true);
   if (projectResult.numMessages) {
-    process.stderr.write(formatResults(projectResult.results));
+    cout(formatResults(projectResult.results));
     throw Error('messages found');
   }
 
-  run('rm -rf ./bin');
-  const files = move('build/bin', '.');
-  files.forEach((file) => {
-    run(`git add ${file} -f`);
-  });
+  if (action === 'trial') {
+    move('build/bin', target);
+  } else {
+    run('rm -rf ./bin');
+    const files = move('build/bin', '.');
+    files.forEach((file) => {
+      run(`git add ${file} -f`);
+    });
+  }
 }
 
-function hook(): void {
-  handleLib();
-  handleBin();
+function hook(action: string, options?: any): void {
+  handleLib(action, options.target);
+  handleBin(action, options.target);
 }
 
 export {
