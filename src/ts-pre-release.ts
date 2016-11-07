@@ -10,7 +10,7 @@ interface IArgs {
   _: string[];
 }
 
-const pkg = getConfig('package');
+const pkg = getConfig('package.json');
 const date = new Date();
 const argv: IArgs = yargs.usage('usage: $0 hook-file')
   .demand(1)
