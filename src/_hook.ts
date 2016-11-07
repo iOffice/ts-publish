@@ -42,8 +42,9 @@ function handleBin(action: string, target: string) {
 }
 
 function hook(action: string, options?: any): void {
-  handleLib(action, options.target);
-  handleBin(action, options.target);
+  const target = options ? options.target : '';
+  handleLib(action, target);
+  handleBin(action, target);
 }
 
 export {
