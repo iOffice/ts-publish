@@ -20,7 +20,7 @@ function cout(msg: string): void {
   process.stdout.write(msg);
 }
 
-function info(tag: string, msg: string): void {
+function info(tag: string, msg: string = ''): void {
   process.stdout.write(`[${tag}] ${msg}\n`);
 }
 
@@ -34,13 +34,13 @@ function exit(code: number, timeout: number = 1000): void {
   }
 }
 
-function run(cmd: string, callback?: Function): void {
+function run(cmd: string, callback?: Function): number {
   const out = execSync(cmd);
   if (callback) {
-    callback(out.toString());
-  } else {
-    process.stdout.write(out.toString());
+    return callback(out.toString());
   }
+  process.stdout.write(out.toString());
+  return 0;
 }
 
 function _move(src: string, dest: string, buf: string[]): void {

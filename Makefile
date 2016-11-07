@@ -9,3 +9,9 @@ copy:
 
 trial: build copy
 	node ./build/ts-trial.js ./build/_hook.js $(TARGET)
+
+preRelease: build copy
+	node ./build/ts-pre-release.js ./build/_hook.js
+
+release: build copy
+	node ./build/ts-release.js ./build/_hook.js

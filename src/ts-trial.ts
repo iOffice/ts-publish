@@ -89,7 +89,7 @@ function main(): number {
     });
   }
 
-  cout(`${'[DONE]'.green}\n`);
+  info('DONE'.green);
   return 0;
 }
 
