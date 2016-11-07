@@ -29,7 +29,7 @@ run(`git branch | grep '^*' | sed 's/* //'`, (branch: string) => {
 });
 
 cout(`${'[CHECKOUT]'.cyan} ${'build'.green}\n`);
-run('git checkout build');
+run('git checkout -b build');
 
 let hook: any;
 const hookPath: string = normalize(`${process.cwd()}/${argv._[0]}`);

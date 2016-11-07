@@ -46,7 +46,7 @@ function main(): number {
   });
 
   info('CHECKOUT'.cyan, 'build'.green);
-  run('git checkout build');
+  run('git checkout -b build');
 
   let hook: any;
   const hookPath: string = normalize(`${process.cwd()}/${argv._[0]}`);
