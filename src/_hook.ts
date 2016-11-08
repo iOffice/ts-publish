@@ -7,7 +7,7 @@ import {
 } from 'ts-publish';
 
 function handleLib(action: string, target: string) {
-  const projectResult = compileProject('ts-publish', './ts-publish.json', true);
+  const projectResult = compileProject('ts-publish', './ts-publish.json', true, true);
   if (projectResult.numMessages) {
     cout(formatResults(projectResult.results));
     throw Error('messages found');
@@ -24,7 +24,7 @@ function handleLib(action: string, target: string) {
 }
 
 function handleBin(action: string, target: string) {
-  const projectResult = compileProject('bin', './ts-publish.json', true);
+  const projectResult = compileProject('bin', './ts-publish.json', true, true);
   if (projectResult.numMessages) {
     cout(formatResults(projectResult.results));
     throw Error('messages found');

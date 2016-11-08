@@ -17,6 +17,7 @@ import * as Lint from 'tslint/lib/lint';
 import * as Linter from 'tslint/lib/tslint';
 import * as _ from 'lodash';
 import * as fs from 'fs';
+import * as ProgressBar from 'progress';
 
 function cout(msg: string, verbose?: boolean): void {
   if (verbose) {
@@ -81,7 +82,19 @@ function compile(
     configuration: lintOptions,
     formatter: 'json',
   };
+  let bar: ProgressBar | undefined;
+  if (verbose) {
+    bar = new ProgressBar(`  linting: :bar :percent :etas`, {
+      complete: '█',
+      incomplete: '░',
+      width: 50,
+      total: emittedFiles.length,
+    });
+  }
   _.each(emittedFiles, (file) => {
+    if (verbose) {
+      bar!.tick();
+    }
     if (!file || !file.fileName) {
       return;
     }
@@ -98,7 +111,6 @@ function compile(
     }
 
     if (lintOptions) {
-      cout(`linting: ${fileName}`, verbose);
       const text = useProgram ? '' : file.text;
       const prog = useProgram ? program : undefined;
       const linter: Linter = new Linter(fileName, text, lintConfig, prog);

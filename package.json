@@ -26,11 +26,16 @@
     "@types/colors": "^0.6.33",
     "@types/lodash": "^4.14.37",
     "@types/node": "^6.0.45",
+    "@types/progress": "^1.1.28",
     "@types/yargs": "^0.0.33",
     "colors": "^1.1.2",
     "lodash": "^4.16.4",
+    "progress": "^1.1.8",
     "tslint": "^3.15.1",
     "typescript": "^2.0.3",
     "yargs": "^6.2.0"
+  },
+  "resolutions": {
+    "glob": "5.0.15"
   }
 }
