@@ -1,6 +1,6 @@
 {
   "name": "ts-publish",
-  "version": "0.0.0",
+  "version": "0.0.0-beta.1478630144539",
   "description": "Typescript project publishing workflow.",
   "main": "index.js",
   "typings": "index.d.ts",
