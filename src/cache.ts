@@ -54,8 +54,10 @@ function loadModifiedFiles(
     };
     cached = false;
   }
+
+  const lib = project.libraries ? project.libraries : [];
   if (!cached || force) {
-    return project.files;
+    return lib.length ? project.files.concat(lib) : project.files;
   }
 
   const projectStats: IProject = projectMap[project.name];
@@ -73,6 +75,7 @@ function loadModifiedFiles(
       };
     }
   });
+  const libFiles = _.map(lib, x => normalize(x));
   return _.filter(filesToFilter, (fileName) => {
     let stats: Stats;
     try {
@@ -82,7 +85,7 @@ function loadModifiedFiles(
     }
     const lastModified: number = projectStats.stats![fileName].lastModified;
     return stats.mtime.valueOf() > lastModified;
-  });
+  }).concat(libFiles);
 }
 
 function storeModifiedDates(

@@ -18,6 +18,12 @@ import * as Linter from 'tslint/lib/tslint';
 import * as _ from 'lodash';
 import * as fs from 'fs';
 
+function cout(msg: string, verbose?: boolean): void {
+  if (verbose) {
+    console.log(msg);
+  }
+}
+
 function getDiagnosticCategory(category: ts.DiagnosticCategory): MessageCategory {
   const map: { [key: number]: MessageCategory } = {
     [ts.DiagnosticCategory.Error]: 'error',
@@ -32,6 +38,8 @@ function compile(
   tsOptions: ts.CompilerOptions,
   lintOptions?: any,
   force?: boolean,
+  verbose?: boolean,
+  useProgram?: boolean,
 ): IMap<IFileMessages> {
   const results: IMap<IFileMessages> = {};
   const outDirectory: string = tsOptions.outDir || '.';
@@ -60,6 +68,8 @@ function compile(
     ts.createDocumentRegistry()
   );
 
+  cout(`Creating program: ${project.name}`, verbose);
+  _.each(modifiedFiles, x => cout(`  - ${x}`, verbose));
   const program: ts.Program = ts.createProgram(modifiedFiles, tsOptions);
   const emitResult: ts.EmitResult = program.emit();
   const preDiagnostics: ts.Diagnostic[] = ts.getPreEmitDiagnostics(program);
@@ -88,7 +98,10 @@ function compile(
     }
 
     if (lintOptions) {
-      const linter: Linter = new Linter(fileName, '', lintConfig, program);
+      cout(`linting: ${fileName}`, verbose);
+      const text = useProgram ? '' : file.text;
+      const prog = useProgram ? program : undefined;
+      const linter: Linter = new Linter(fileName, text, lintConfig, prog);
       const lintResults: Lint.LintResult = linter.lint();
       const failures: any = JSON.parse(lintResults.output);
       const fileMessages: IFileMessages = results[fileName];
@@ -137,7 +150,9 @@ function compile(
 function compileProject(
   projectName: string,
   tsPublishConfigPath: string,
-  force?: boolean
+  force?: boolean,
+  verbose?: boolean,
+  useProgram?: boolean,
 ): IProjectResults {
   const projects: IProject[] = parseTsPublishConfig(tsPublishConfigPath);
   if (!projects) {
@@ -148,8 +163,10 @@ function compileProject(
   if (!project) {
     throw Error(`project must be one of: [${projects.map(x => x.name)}]\n`);
   }
-  const lintOptions: any = getConfig('tslint');
-  const results = compile(project, project.compilerOptions, lintOptions, force);
+  const lintOptions: any = getConfig('tslint.json');
+  const results = compile(
+    project, project.compilerOptions, lintOptions, force, verbose, useProgram
+  );
   const output: IProjectResults = {
     results,
     numMessages: 0,

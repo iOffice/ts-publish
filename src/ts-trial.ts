@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-import { cout, exit, getConfig, info } from 'ts-publish';
+import { run, cout, exit, getConfig, info } from 'ts-publish';
 import { normalize, resolve } from 'path';
 import 'colors';
 import * as yargs from 'yargs';
@@ -86,6 +86,7 @@ function main(): number {
       try {
         fs.symlinkSync(targetFile, newFile);
       } catch (e) {}
+      run(`chmod +x ${targetFile}`);
     });
   }
 
