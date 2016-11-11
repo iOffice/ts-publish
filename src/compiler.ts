@@ -168,8 +168,7 @@ function compileProject(
 ): IProjectResults {
   const projects: IProject[] = parseTsPublishConfig(tsPublishConfigPath);
   if (!projects) {
-    const configFile: string = `${tsPublishConfigPath}.json`;
-    throw Error(`something seems to be wrong with '${configFile}'\n`);
+    throw Error(`something seems to be wrong with '${tsPublishConfigPath}'\n`);
   }
   const project: IProject = _.find(projects, (x) => x.name === projectName);
   if (!project) {
