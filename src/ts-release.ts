@@ -29,9 +29,6 @@ function main(): number {
     }
   });
 
-  info('CHECKOUT'.cyan, 'build'.green);
-  run('git checkout -b build');
-
   let hook: any;
   const hookPath: string = normalize(`${process.cwd()}/${argv._[0]}`);
   try {
@@ -41,6 +38,9 @@ function main(): number {
     console.log(e.stack);
     throw Error('exit');
   }
+
+  info('CHECKOUT'.cyan, 'build'.green);
+  run('git checkout -b build');
 
   info('HOOK'.cyan, 'running ...');
   try {
@@ -58,9 +58,6 @@ function main(): number {
     }
   });
 
-  info('COMMIT'.cyan);
-  run(`git commit -m "v${pkg.version}"`);
-
   try {
     hook.publish('release', pkg.version);
   } catch (e) {
@@ -68,10 +65,6 @@ function main(): number {
     console.log(e.stack);
     throw Error('exit');
   }
-
-  info('TAG'.cyan);
-  run(`git tag v${pkg.version} -f`);
-  run('git push --tags -f');
 
   info('CHECKOUT'.cyan, 'master'.green);
   run('git checkout master');
