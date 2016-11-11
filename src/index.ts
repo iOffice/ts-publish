@@ -12,6 +12,7 @@ import {
 } from './interfaces';
 import { formatResults } from './formatter';
 import { execSync } from 'child_process';
+import { readFileSync, writeFileSync } from 'fs';
 import * as fs from 'fs';
 import * as pth from 'path';
 import * as _ from 'lodash';
@@ -115,6 +116,19 @@ function move(src: string, dest: string): string[] {
   return buf;
 }
 
+function changePackageVersion(version: string): void {
+  const contents = readFileSync('package.json', 'utf8');
+  const lines = contents.split('\n');
+  const newLines = lines.map((line) => {
+    if (_.startsWith(_.trim(line), '"version"')) {
+      return `  "version": "${version}",`;
+    }
+    return line;
+  });
+  writeFileSync('package.json', newLines.join('\n'));
+  run('git add package.json -f');
+}
+
 export {
   MessageCategory,
   ITSMessage,
@@ -135,4 +149,5 @@ export {
   info,
   move,
   pushTags,
+  changePackageVersion,
 };
