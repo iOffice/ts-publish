@@ -69,10 +69,6 @@ function main(): number {
     throw Error('exit');
   }
 
-  info('TAG'.cyan);
-  run(`git tag v${pkg.version} -f`);
-  run('git push --tags -f');
-
   info('CHECKOUT'.cyan, 'master'.green);
   run('git checkout master');
   run('git branch -D build');
