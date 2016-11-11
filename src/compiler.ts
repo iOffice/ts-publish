@@ -174,7 +174,7 @@ function compileProject(
   if (!project) {
     throw Error(`project must be one of: [${projects.map(x => x.name)}]\n`);
   }
-  const lintOptions: any = getConfig('tslint.json');
+  const lintOptions: any = getConfig(project.tsLintConfigPath || 'tslint.json');
   const results = compile(
     project, project.compilerOptions, lintOptions, force, verbose, useProgram
   );

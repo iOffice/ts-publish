@@ -33,6 +33,7 @@ interface IProject {
     [index: string]: IFileStats
   };
   compilerOptions?: any;
+  tsLintConfigPath?: string;
 }
 
 interface IProjectResults {
