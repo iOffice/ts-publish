@@ -16,17 +16,29 @@ import * as fs from 'fs';
 import * as pth from 'path';
 import * as _ from 'lodash';
 
+/**
+ * Wrapper to output to the stdout stream. Unlike `console.log` this will not add the new line
+ * character.
+ */
 function cout(msg: string): void {
   process.stdout.write(msg);
 }
 
+/**
+ * Wrapper to write formatted messages in the form `[:tag:] :msg:\n`.
+ */
 function info(tag: string, msg: string = ''): void {
   process.stdout.write(`[${tag}] ${msg}\n`);
 }
 
+/**
+ * Calls `process.exit` with the exit code provided after a one second timeout. You may change
+ * the timeout by providing the second parameter. The one second timeout is done because some
+ * async processes (writing to the console) may not be completely done.
+ *
+ * See: https://github.com/nodejs/node/issues/7743
+ */
 function exit(code: number, timeout: number = 1000): void {
-  // Waiting one second before exiting to finish any ongoing async processes.
-  // https://github.com/nodejs/node/issues/7743
   if (timeout) {
     setTimeout(() => process.exit(code), timeout);
   } else {
@@ -34,13 +46,26 @@ function exit(code: number, timeout: number = 1000): void {
   }
 }
 
-function run(cmd: string, callback?: Function): number {
+/**
+ * Run a shell command. If a callback is provided then the resulting output from the command
+ * is passed to it.
+ */
+function run(cmd: string, callback?: (output: string) => void | number): number {
   const out = execSync(cmd);
   if (callback) {
-    return callback(out.toString());
+    return callback(out.toString()) || 0;
   }
   process.stdout.write(out.toString());
   return 0;
+}
+
+/**
+ * Utility function to make a git tag and to push.
+ */
+function pushTags(tag: string): void {
+  info('TAGGING'.cyan);
+  run(`git tag ${tag} -f`);
+  run('git push --tags -f');
 }
 
 function _move(src: string, dest: string, buf: string[]): void {
@@ -79,6 +104,11 @@ function _move(src: string, dest: string, buf: string[]): void {
   }
 }
 
+/**
+ * Move files and/or directories recursively. If the `src` parameter ends with `/` then only
+ * the contents of the directory will be moved to the destination. Otherwise the whole `src`
+ * directory will be moved to the destination.
+ */
 function move(src: string, dest: string): string[] {
   const buf: string[] = [];
   _move(src, dest, buf);
@@ -104,4 +134,5 @@ export {
   run,
   info,
   move,
+  pushTags,
 };
