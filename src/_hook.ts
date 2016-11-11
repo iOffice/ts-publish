@@ -47,6 +47,12 @@ function hook(action: string, options?: any): void {
   handleBin(action, target);
 }
 
+function publish(action: string, version: string): void {
+  cout(`Publishing version ${version}`);
+  run('npm publish');
+}
+
 export {
   hook,
+  publish,
 }

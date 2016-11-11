@@ -2,6 +2,7 @@
   "name": "ts-publish",
   "version": "0.0.0",
   "description": "Typescript project publishing workflow.",
+  "license": "MIT",
   "main": "index.js",
   "typings": "index.d.ts",
   "bin": {
@@ -23,19 +24,24 @@
     "pre-publish"
   ],
   "dependencies": {
-    "@types/colors": "^0.6.33",
-    "@types/lodash": "^4.14.37",
-    "@types/node": "^6.0.45",
-    "@types/progress": "^1.1.28",
-    "@types/yargs": "^0.0.33",
-    "colors": "^1.1.2",
-    "lodash": "^4.16.4",
-    "progress": "^1.1.8",
-    "tslint": "^3.15.1",
-    "typescript": "^2.0.3",
-    "yargs": "^6.2.0"
+    "@types/colors": "^0.0.0",
+    "@types/lodash": "^4.0.0",
+    "@types/node": "^6.0.0",
+    "@types/progress": "^1.0.0",
+    "@types/yargs": "^0.0.0",
+    "colors": "^1.0.0",
+    "lodash": "^4.0.0",
+    "progress": "^1.0.0",
+    "tslint": "^3.0.0",
+    "typescript": "^2.0.0",
+    "yargs": "^6.0.0"
   },
   "resolutions": {
-    "glob": "5.0.15"
+    "glob": "5.0.15",
+    "@types/node": "6.0.45"
+  },
+  "repository": {
+    "type" : "git",
+    "url" : "https://github.com/iOffice/ts-publish"
   }
 }

@@ -79,6 +79,14 @@ function main(): number {
   run('git add package.json -f');
   run(`git commit -m "[pre-release:${date.valueOf()}]"`);
 
+  try {
+    hook.publish('pre-release', version);
+  } catch (e) {
+    info('ERROR'.red, `hook publish error:\n'${e.message}'`);
+    console.log(e.stack);
+    throw Error('exit');
+  }
+
   info('TAG'.cyan);
   run(`git tag v${version} -f`);
   run('git push --tags -f');
