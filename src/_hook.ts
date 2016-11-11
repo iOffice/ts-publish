@@ -48,7 +48,7 @@ function hook(action: string, options?: any): void {
 }
 
 function publish(action: string, version: string): void {
-  cout(`Publishing version ${version}`);
+  cout(`Publishing version ${version}\n`);
   run('npm publish');
 }
 
