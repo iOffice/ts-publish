@@ -55,9 +55,9 @@ function publish(action: string, version: string): void {
   cout(`Publishing version ${finalVersion}\n`);
   if (action === 'pre-release') {
     changePackageVersion(finalVersion);
-    run(`git commit -m [pre-release] v${finalVersion}`);
+    run(`git commit -m "[pre-release] v${finalVersion}"`);
   } else {
-    run(`git commit -m [release] v${finalVersion}`);
+    run(`git commit -m "[release] v${finalVersion}"`);
   }
   pushTags(`v${finalVersion}`);
   run('npm publish');
