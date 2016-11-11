@@ -1,0 +1,10 @@
+import { compile, compileProject } from './compiler';
+import { getConfig, parseTsPublishConfig } from './cache';
+import { MessageCategory, ITSMessage, IFileInfo, IFileMessages, IFileStats, IMap, IProject, IProjectResults } from './interfaces';
+import { formatResults } from './formatter';
+declare function cout(msg: string): void;
+declare function info(tag: string, msg?: string): void;
+declare function exit(code: number, timeout?: number): void;
+declare function run(cmd: string, callback?: Function): number;
+declare function move(src: string, dest: string): string[];
+export { MessageCategory, ITSMessage, IFileInfo, IFileMessages, IFileStats, IProjectResults, IMap, IProject, getConfig, parseTsPublishConfig, compile, compileProject, formatResults, cout, exit, run, info, move };
