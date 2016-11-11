@@ -17,6 +17,13 @@ import * as Lint from 'tslint/lib/lint';
 import * as Linter from 'tslint/lib/tslint';
 import * as _ from 'lodash';
 import * as fs from 'fs';
+import * as ProgressBar from 'progress';
+
+function cout(msg: string, verbose?: boolean): void {
+  if (verbose) {
+    console.log(msg);
+  }
+}
 
 function getDiagnosticCategory(category: ts.DiagnosticCategory): MessageCategory {
   const map: { [key: number]: MessageCategory } = {
@@ -32,6 +39,8 @@ function compile(
   tsOptions: ts.CompilerOptions,
   lintOptions?: any,
   force?: boolean,
+  verbose?: boolean,
+  useProgram?: boolean,
 ): IMap<IFileMessages> {
   const results: IMap<IFileMessages> = {};
   const outDirectory: string = tsOptions.outDir || '.';
@@ -60,6 +69,8 @@ function compile(
     ts.createDocumentRegistry()
   );
 
+  cout(`Creating program: ${project.name}`, verbose);
+  _.each(modifiedFiles, x => cout(`  - ${x}`, verbose));
   const program: ts.Program = ts.createProgram(modifiedFiles, tsOptions);
   const emitResult: ts.EmitResult = program.emit();
   const preDiagnostics: ts.Diagnostic[] = ts.getPreEmitDiagnostics(program);
@@ -71,7 +82,22 @@ function compile(
     configuration: lintOptions,
     formatter: 'json',
   };
+  let bar: ProgressBar | undefined;
+  if (verbose) {
+    bar = new ProgressBar(`  linting: :bar :percent :etas`, {
+      complete: '█',
+      incomplete: '░',
+      width: 50,
+      total: emittedFiles.length,
+    });
+  }
   _.each(emittedFiles, (file) => {
+    if (verbose) {
+      bar!.tick();
+    }
+    if (!file || !file.fileName) {
+      return;
+    }
     const output: ts.EmitOutput = services.getEmitOutput(file.fileName);
     const fileName: string = file.fileName;
     if (!results[fileName]) {
@@ -85,7 +111,9 @@ function compile(
     }
 
     if (lintOptions) {
-      const linter: Linter = new Linter(fileName, '', lintConfig, program);
+      const text = useProgram ? '' : file.text;
+      const prog = useProgram ? program : undefined;
+      const linter: Linter = new Linter(fileName, text, lintConfig, prog);
       const lintResults: Lint.LintResult = linter.lint();
       const failures: any = JSON.parse(lintResults.output);
       const fileMessages: IFileMessages = results[fileName];
@@ -107,20 +135,24 @@ function compile(
 
   _.each(allDiagnostics, (diagnostic) => {
     const file: ts.SourceFile = diagnostic.file;
+    if (!file || !file.fileName) {
+      return;
+    }
     const fileMessages: IFileMessages = results[file.fileName];
     const pos: ts.LineAndCharacter = file.getLineAndCharacterOfPosition(diagnostic.start);
     const message: string = ts.flattenDiagnosticMessageText(diagnostic.messageText, '');
-
-    fileMessages.messages.push({
-      message,
-      line: pos.line + 1,
-      character: pos.character + 1,
-      width: 0,
-      issuer: 'typescript',
-      category: getDiagnosticCategory(diagnostic.category),
-      type: `TS${diagnostic.code}`,
-    });
-    fileMessages.messages.sort((a, b) => a.line - b.line);
+    if (fileMessages) {
+      fileMessages.messages.push({
+        message,
+        line: pos.line + 1,
+        character: pos.character + 1,
+        width: 0,
+        issuer: 'typescript',
+        category: getDiagnosticCategory(diagnostic.category),
+        type: `TS${diagnostic.code}`,
+      });
+      fileMessages.messages.sort((a, b) => a.line - b.line);
+    }
   });
 
   storeModifiedDates(project, results, emittedFiles.map(x => x.path), outDirectory);
@@ -130,7 +162,9 @@ function compile(
 function compileProject(
   projectName: string,
   tsPublishConfigPath: string,
-  force?: boolean
+  force?: boolean,
+  verbose?: boolean,
+  useProgram?: boolean,
 ): IProjectResults {
   const projects: IProject[] = parseTsPublishConfig(tsPublishConfigPath);
   if (!projects) {
@@ -141,8 +175,10 @@ function compileProject(
   if (!project) {
     throw Error(`project must be one of: [${projects.map(x => x.name)}]\n`);
   }
-  const lintOptions: any = getConfig('tslint');
-  const results = compile(project, project.compilerOptions, lintOptions, force);
+  const lintOptions: any = getConfig('tslint.json');
+  const results = compile(
+    project, project.compilerOptions, lintOptions, force, verbose, useProgram
+  );
   const output: IProjectResults = {
     results,
     numMessages: 0,

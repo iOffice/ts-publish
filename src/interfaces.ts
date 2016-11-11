@@ -28,6 +28,7 @@ interface IFileStats extends IFileInfo {
 interface IProject {
   name: string;
   files: string[];
+  libraries?: string[];
   stats?: {
     [index: string]: IFileStats
   };

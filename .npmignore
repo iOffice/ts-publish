@@ -1,0 +1,14 @@
+.idea
+build/
+node_modules/
+src/
+.editorconfig
+.gitignore
+.npmignore
+Makefile
+ts-publish.json
+tsconfig.json
+tslint.json
+yarn.lock
+bin/.ts-stats.json
+.ts-stats.json

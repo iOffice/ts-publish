@@ -13,12 +13,12 @@ function _parseJSONFile(fileName: string): any {
 
 function getConfig(name: string, path?: string): any {
   const base: string = path ? path : process.cwd();
-  const config: string = `${base}/${name}.json`;
+  const config: string = `${base}/${name}`;
   return _parseJSONFile(config);
 }
 
 function parseTsPublishConfig(path: string) {
-  const tsOptions = getConfig('tsconfig').compilerOptions;
+  const tsOptions = getConfig('tsconfig.json').compilerOptions;
   const projects: IProject[] = getConfig(path);
   _.each(projects, (project) => {
     if (project.compilerOptions) {
@@ -54,8 +54,10 @@ function loadModifiedFiles(
     };
     cached = false;
   }
+
+  const lib = project.libraries ? project.libraries : [];
   if (!cached || force) {
-    return project.files;
+    return lib.length ? project.files.concat(lib) : project.files;
   }
 
   const projectStats: IProject = projectMap[project.name];
@@ -73,6 +75,7 @@ function loadModifiedFiles(
       };
     }
   });
+  const libFiles = _.map(lib, x => normalize(x));
   return _.filter(filesToFilter, (fileName) => {
     let stats: Stats;
     try {
@@ -82,7 +85,7 @@ function loadModifiedFiles(
     }
     const lastModified: number = projectStats.stats![fileName].lastModified;
     return stats.mtime.valueOf() > lastModified;
-  });
+  }).concat(libFiles);
 }
 
 function storeModifiedDates(

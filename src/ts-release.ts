@@ -1,68 +1,92 @@
 #!/usr/bin/env node
-import { cout, exit, run, getConfig } from 'ts-publish';
-import { normalize } from 'path';
 import 'colors';
 import * as yargs from 'yargs';
+import { exit, run, getConfig, info } from 'ts-publish';
+import { normalize } from 'path';
 
 interface IArgs {
   _: string[];
 }
 
-const pkg: any = getConfig('package');
+const pkg = getConfig('package.json');
 const argv: IArgs = yargs.usage('usage: $0 hook-file')
   .demand(1)
   .help('help')
   .argv;
 
-run('git status -s', (stdout: string) => {
-  if (stdout) {
-    cout(`${'[ERROR]'.red} there are uncommitted changes:\n${stdout}`);
-    exit(0);
+function main(): number {
+  run('git status -s', (stdout: string) => {
+    if (stdout) {
+      info('ERROR'.red, `there are uncommitted changes:\n${stdout}`);
+      throw Error('exit');
+    }
+  });
+
+  run(`git branch | grep '^*' | sed 's/* //'`, (branch: string) => {
+    if (branch.trim() !== 'production') {
+      info('ERROR'.red, `release only allowed in 'production' branch`);
+      throw Error('exit');
+    }
+  });
+
+  info('CHECKOUT'.cyan, 'build'.green);
+  run('git checkout -b build');
+
+  let hook: any;
+  const hookPath: string = normalize(`${process.cwd()}/${argv._[0]}`);
+  try {
+    hook = require(hookPath);
+  } catch (e) {
+    info('ERROR'.red, `unable to load hook '${hookPath}`);
+    console.log(e.stack);
+    throw Error('exit');
   }
-});
 
-run(`git branch | grep '^*' | sed 's/* //'`, (branch: string) => {
-  if (branch.trim() !== 'production') {
-    cout(`${'[ERROR]'.red} release only allowed in 'production' branch\n`);
-    exit(0);
+  info('HOOK'.cyan, 'running ...');
+  try {
+    hook.hook('release');
+  } catch (e) {
+    info('ERROR'.red, `hook error:\n'${e.message}'`);
+    console.log(e.stack);
+    throw Error('exit');
   }
-});
 
-cout(`${'[CHECKOUT]'.cyan} ${'build'.green}\n`);
-run('git checkout build');
+  run('git status -s', (stdout: string) => {
+    if (!stdout) {
+      info('ERROR'.red, 'nothing to commit');
+      throw Error('exit');
+    }
+  });
 
-let hook: any;
-const hookPath: string = normalize(`${process.cwd()}/${argv._[0]}`);
-try {
-  hook = require(hookPath);
-} catch (e) {
-  cout(`${'[ERROR]'.red} unable to load hook '${hookPath}'\n`);
+  info('COMMIT'.cyan);
+  run(`git commit -m "v${pkg.version}"`);
+
+  try {
+    hook.publish('release', pkg.version);
+  } catch (e) {
+    info('ERROR'.red, `hook publish error:\n'${e.message}'`);
+    console.log(e.stack);
+    throw Error('exit');
+  }
+
+  info('TAG'.cyan);
+  run(`git tag v${pkg.version} -f`);
+  run('git push --tags -f');
+
+  info('CHECKOUT'.cyan, 'master'.green);
+  run('git checkout master');
+  run('git branch -D build');
+
+  info('DONE'.green);
+  return 0;
 }
 
-cout(`${'[HOOK]'.cyan} running...\n`);
 try {
-  hook.hook('release');
+  exit(main());
 } catch (e) {
-  cout(`${'[ERROR]'.red} hook error:\n'${e.message}'\n`);
-  exit(0);
-}
-
-run('git status -s', (stdout: string) => {
-  if (!stdout) {
-    cout(`${'[ERROR]'.red} nothing to commit\n`);
-    exit(0);
+  if (e.message !== 'exit') {
+    info('UNKNOWN_ERROR'.red, e.message);
+    console.log(e.stack);
   }
-});
-
-cout(`${'[COMMIT]'.cyan}\n`);
-run(`git commit -m "v${pkg.version}"`);
-
-cout(`${'[TAG]'.cyan}\n`);
-run(`git tag v${pkg.version} -f`);
-run('git push --tags -f');
-
-cout(`${'[CHECKOUT]'.cyan} ${'master'.green}\n`);
-run('git checkout master');
-run('git branch -D build');
-
-cout(`${'[DONE]'.green}\n`);
+  exit(1);
+}
