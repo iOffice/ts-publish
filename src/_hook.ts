@@ -56,11 +56,12 @@ function publish(action: string, version: string): void {
   if (action === 'pre-release') {
     changePackageVersion(finalVersion);
     run(`git commit -m "[pre-release] v${finalVersion}"`);
+    run('npm publish --tag next');
   } else {
     run(`git commit -m "[release] v${finalVersion}"`);
+    run('npm publish --tag latest');
   }
   pushTags(`v${finalVersion}`);
-  run('npm publish');
 }
 
 export {
