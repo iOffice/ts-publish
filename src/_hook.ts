@@ -4,6 +4,8 @@ import {
   run,
   cout,
   compileProject,
+  pushTags,
+  changePackageVersion,
 } from 'ts-publish';
 
 function handleLib(action: string, target: string) {
@@ -48,7 +50,16 @@ function hook(action: string, options?: any): void {
 }
 
 function publish(action: string, version: string): void {
-  cout(`Publishing version ${version}\n`);
+  const date = new Date();
+  const finalVersion = action === 'pre-release' ? `${version}-beta.${date.valueOf()}` : version;
+  cout(`Publishing version ${finalVersion}\n`);
+  if (action === 'pre-release') {
+    changePackageVersion(finalVersion);
+    run(`git commit -m [pre-release] v${finalVersion}`);
+  } else {
+    run(`git commit -m [release] v${finalVersion}`);
+  }
+  pushTags(`v${finalVersion}`);
   run('npm publish');
 }
 
