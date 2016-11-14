@@ -17,7 +17,7 @@ function getConfig(name: string, path?: string): any {
   return _parseJSONFile(config);
 }
 
-function parseTsPublishConfig(path: string) {
+function parseTsPublishConfig(path: string): IProject[] {
   const tsOptions = getConfig('tsconfig.json').compilerOptions;
   const projects: IProject[] = getConfig(path);
   _.each(projects, (project) => {

@@ -1,3 +1,9 @@
+[![Downloads per Month](https://img.shields.io/npm/dm/ts-publish.svg)](https://www.npmjs.com/package/ts-publish)
+[![NPM Version](https://img.shields.io/npm/v/ts-publish.svg)](https://www.npmjs.com/package/ts-publish)
+[![Shields.io](https://img.shields.io/badge/badges%20by-shields.io-ff69b4.svg)](https://shields.io/)
+[![License](https://img.shields.io/npm/l/ts-publish.svg)](LICENSE)
+
+
 ## ts-publish
 
 This package provides a collection of node scripts to aid in the deployment of typescript projects.

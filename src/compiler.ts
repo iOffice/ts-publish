@@ -168,14 +168,13 @@ function compileProject(
 ): IProjectResults {
   const projects: IProject[] = parseTsPublishConfig(tsPublishConfigPath);
   if (!projects) {
-    const configFile: string = `${tsPublishConfigPath}.json`;
-    throw Error(`something seems to be wrong with '${configFile}'\n`);
+    throw Error(`something seems to be wrong with '${tsPublishConfigPath}'\n`);
   }
   const project: IProject = _.find(projects, (x) => x.name === projectName);
   if (!project) {
     throw Error(`project must be one of: [${projects.map(x => x.name)}]\n`);
   }
-  const lintOptions: any = getConfig('tslint.json');
+  const lintOptions: any = getConfig(project.tsLintConfigPath || 'tslint.json');
   const results = compile(
     project, project.compilerOptions, lintOptions, force, verbose, useProgram
   );
