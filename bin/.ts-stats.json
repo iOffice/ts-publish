@@ -1,0 +1,53 @@
+{
+  "bin": {
+    "name": "bin",
+    "files": [
+      "/users/jmlopez/workspace/ts-publish/src/ts-compile.ts",
+      "/users/jmlopez/workspace/ts-publish/src/ts-trial.ts",
+      "/users/jmlopez/workspace/ts-publish/src/ts-pre-release.ts",
+      "/users/jmlopez/workspace/ts-publish/src/ts-release.ts"
+    ],
+    "stats": {
+      "/users/jmlopez/workspace/ts-publish/src/ts-compile.ts": {
+        "fileName": "src/ts-compile.ts",
+        "absPath": "/users/jmlopez/workspace/ts-publish/src/ts-compile.ts",
+        "emmittedFiles": [
+          "./build/bin/ts-compile.js",
+          "./build/bin/ts-compile.d.ts"
+        ],
+        "outDirectory": "./build/bin",
+        "lastModified": 1478828533000
+      },
+      "/users/jmlopez/workspace/ts-publish/src/ts-trial.ts": {
+        "fileName": "src/ts-trial.ts",
+        "absPath": "/users/jmlopez/workspace/ts-publish/src/ts-trial.ts",
+        "emmittedFiles": [
+          "./build/bin/ts-trial.js",
+          "./build/bin/ts-trial.d.ts"
+        ],
+        "outDirectory": "./build/bin",
+        "lastModified": 1478828533000
+      },
+      "/users/jmlopez/workspace/ts-publish/src/ts-pre-release.ts": {
+        "fileName": "src/ts-pre-release.ts",
+        "absPath": "/users/jmlopez/workspace/ts-publish/src/ts-pre-release.ts",
+        "emmittedFiles": [
+          "./build/bin/ts-pre-release.js",
+          "./build/bin/ts-pre-release.d.ts"
+        ],
+        "outDirectory": "./build/bin",
+        "lastModified": 1479155416000
+      },
+      "/users/jmlopez/workspace/ts-publish/src/ts-release.ts": {
+        "fileName": "src/ts-release.ts",
+        "absPath": "/users/jmlopez/workspace/ts-publish/src/ts-release.ts",
+        "emmittedFiles": [
+          "./build/bin/ts-release.js",
+          "./build/bin/ts-release.d.ts"
+        ],
+        "outDirectory": "./build/bin",
+        "lastModified": 1479155416000
+      }
+    }
+  }
+}
