@@ -1,6 +1,6 @@
 {
   "name": "ts-publish",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Typescript project publishing workflow.",
   "license": "MIT",
   "main": "index.js",
