@@ -32,13 +32,19 @@
     "colors": "^1",
     "lodash": "^4",
     "progress": "^1",
-    "tslint": "^3",
-    "typescript": "^2",
+    "tslint": "^4.0.2",
+    "typescript": "^2.0.10",
     "yargs": "^6"
   },
   "resolutions": {
     "glob": "5.0.15",
-    "@types/node": "6.0.45"
+    "@types/node": "6.0.45",
+    "minimist": "1.2.0",
+    "camelcase": "3.0.0"
+  },
+  "peerDependencies": {
+    "tslint": ">=4.0.0",
+    "typescript": ">=2.0.0"
   },
   "repository": {
     "type": "git",
