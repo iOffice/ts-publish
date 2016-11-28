@@ -41,7 +41,7 @@ function parseTsPublishConfig(path: string): IProject[] {
 function loadModifiedFiles(
   project: IProject,
   targetDir: string,
-  force?: boolean
+  force?: boolean,
 ): string[] {
   const statsFile: string = `${targetDir}/.ts-stats.json`;
   let projectMap: IMap<IProject> = _parseJSONFile(statsFile) || {};
