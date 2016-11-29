@@ -13,8 +13,7 @@ import {
   parseTsPublishConfig,
 } from './cache';
 import * as ts from 'typescript';
-import * as Lint from 'tslint/lib/lint';
-import * as Linter from 'tslint/lib/tslint';
+import * as Lint from 'tslint';
 import * as _ from 'lodash';
 import * as fs from 'fs';
 import * as ProgressBar from 'progress';
@@ -51,7 +50,7 @@ function compile(
 
   const servicesHost: ts.LanguageServiceHost = {
     getScriptFileNames: () => modifiedFiles,
-    getScriptVersion: (fileName) => '',
+    getScriptVersion: () => '',
     getCurrentDirectory: () => process.cwd(),
     getScriptSnapshot: (fileName) => {
       if (!fs.existsSync(fileName)) {
@@ -66,7 +65,7 @@ function compile(
 
   const services: ts.LanguageService = ts.createLanguageService(
     servicesHost,
-    ts.createDocumentRegistry()
+    ts.createDocumentRegistry(),
   );
 
   cout(`Creating program: ${project.name}`, verbose);
@@ -78,8 +77,8 @@ function compile(
   const emittedFiles: ts.SourceFile[] = program.getSourceFiles()
     .filter(x => !_.includes(x.fileName, 'node_modules'));
 
-  const lintConfig: Lint.ILinterOptionsRaw = {
-    configuration: lintOptions,
+  const options: Lint.ILinterOptions = {
+    fix: false,
     formatter: 'json',
   };
   let bar: ProgressBar | undefined;
@@ -113,8 +112,9 @@ function compile(
     if (lintOptions) {
       const text = useProgram ? '' : file.text;
       const prog = useProgram ? program : undefined;
-      const linter: Linter = new Linter(fileName, text, lintConfig, prog);
-      const lintResults: Lint.LintResult = linter.lint();
+      const linter = new Lint.Linter(options, prog);
+      linter.lint(fileName, text, lintOptions);
+      const lintResults: Lint.LintResult = linter.getResult();
       const failures: any = JSON.parse(lintResults.output);
       const fileMessages: IFileMessages = results[fileName];
       _.each(failures, (failure) => {
@@ -176,7 +176,7 @@ function compileProject(
   }
   const lintOptions: any = getConfig(project.tsLintConfigPath || 'tslint.json');
   const results = compile(
-    project, project.compilerOptions, lintOptions, force, verbose, useProgram
+    project, project.compilerOptions, lintOptions, force, verbose, useProgram,
   );
   const output: IProjectResults = {
     results,

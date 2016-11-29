@@ -44,7 +44,7 @@ function _compile(): number {
   let projectResult: IProjectResults;
   try {
     projectResult = compileProject(
-      argv._[0], argv.config || 'ts-publish.json', argv.force, argv.verbose, argv.program
+      argv._[0], argv.config || 'ts-publish.json', argv.force, argv.verbose, argv.program,
     );
   } catch (e) {
     process.stderr.write(e.message);

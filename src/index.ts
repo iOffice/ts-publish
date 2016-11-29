@@ -65,8 +65,8 @@ function run(cmd: string, callback?: (output: string) => void | number): number 
  */
 function pushTags(tag: string): void {
   info('TAGGING'.cyan);
-  run(`git tag ${tag} -f`);
-  run('git push --tags -f');
+  run(`git tag ${tag}`);
+  run('git push --tags');
 }
 
 function _move(src: string, dest: string, buf: string[]): void {

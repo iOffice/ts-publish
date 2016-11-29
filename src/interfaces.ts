@@ -30,7 +30,7 @@ interface IProject {
   files: string[];
   libraries?: string[];
   stats?: {
-    [index: string]: IFileStats
+    [index: string]: IFileStats;
   };
   compilerOptions?: any;
   tsLintConfigPath?: string;
