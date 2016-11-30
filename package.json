@@ -1,6 +1,6 @@
 {
   "name": "ts-publish",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Typescript project publishing workflow.",
   "license": "MIT",
   "main": "index.js",
@@ -23,7 +23,7 @@
     "pre-release",
     "pre-publish"
   ],
-  "dependencies": {
+  "devDependencies": {
     "@types/colors": "^0",
     "@types/lodash": "^4",
     "@types/node": "^6",
@@ -43,8 +43,17 @@
     "camelcase": "3.0.0"
   },
   "peerDependencies": {
+    "@types/colors": "^0",
+    "@types/lodash": "^4",
+    "@types/node": "^6",
+    "@types/progress": "^1",
+    "@types/yargs": "^0",
+    "colors": "^1",
+    "lodash": "^4",
+    "progress": "^1",
     "tslint": ">=4.0.0",
-    "typescript": ">=2.0.0"
+    "typescript": ">=2.0.0",
+    "yargs": "^6"
   },
   "repository": {
     "type": "git",

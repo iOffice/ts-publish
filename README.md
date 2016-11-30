@@ -76,7 +76,7 @@ Before we can run any of the next three scripts we will have to define a hook fi
 sure that it is compiled via `ts-compile`. This file should export a function named `hook` and
 `publish` with the following signatures:
 
-```typescript
+```ts
 function hook(action: string, options?: any): void;
 function publish(action: string, version: string): void;
 ```
@@ -94,7 +94,7 @@ This script takes in two parameters: the path to the hook file and the path to t
 will try the package. To begin to understand how to use this file lets start by writing the
 following hook file
 
-```typescript
+```ts
 // ts-hook.ts
 import {
   formatResults,
