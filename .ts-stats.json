@@ -1,0 +1,64 @@
+{
+  "ts-publish": {
+    "name": "ts-publish",
+    "files": [
+      "/users/jmlopez/workspace/ts-publish/src/interfaces.ts",
+      "/users/jmlopez/workspace/ts-publish/src/cache.ts",
+      "/users/jmlopez/workspace/ts-publish/src/compiler.ts",
+      "/users/jmlopez/workspace/ts-publish/src/formatter.ts",
+      "/users/jmlopez/workspace/ts-publish/src/index.ts"
+    ],
+    "stats": {
+      "/users/jmlopez/workspace/ts-publish/src/interfaces.ts": {
+        "fileName": "/Users/jmlopez/Workspace/ts-publish/src/interfaces.ts",
+        "absPath": "/users/jmlopez/workspace/ts-publish/src/interfaces.ts",
+        "emmittedFiles": [
+          "./build/lib/interfaces.js",
+          "./build/lib/interfaces.d.ts"
+        ],
+        "outDirectory": "./build/lib",
+        "lastModified": 1480453700000
+      },
+      "/users/jmlopez/workspace/ts-publish/src/cache.ts": {
+        "fileName": "/Users/jmlopez/Workspace/ts-publish/src/cache.ts",
+        "absPath": "/users/jmlopez/workspace/ts-publish/src/cache.ts",
+        "emmittedFiles": [
+          "./build/lib/cache.js",
+          "./build/lib/cache.d.ts"
+        ],
+        "outDirectory": "./build/lib",
+        "lastModified": 1480453700000
+      },
+      "/users/jmlopez/workspace/ts-publish/src/compiler.ts": {
+        "fileName": "/Users/jmlopez/Workspace/ts-publish/src/compiler.ts",
+        "absPath": "/users/jmlopez/workspace/ts-publish/src/compiler.ts",
+        "emmittedFiles": [
+          "./build/lib/compiler.js",
+          "./build/lib/compiler.d.ts"
+        ],
+        "outDirectory": "./build/lib",
+        "lastModified": 1480453700000
+      },
+      "/users/jmlopez/workspace/ts-publish/src/formatter.ts": {
+        "fileName": "/Users/jmlopez/Workspace/ts-publish/src/formatter.ts",
+        "absPath": "/users/jmlopez/workspace/ts-publish/src/formatter.ts",
+        "emmittedFiles": [
+          "./build/lib/formatter.js",
+          "./build/lib/formatter.d.ts"
+        ],
+        "outDirectory": "./build/lib",
+        "lastModified": 1476899506000
+      },
+      "/users/jmlopez/workspace/ts-publish/src/index.ts": {
+        "fileName": "src/index.ts",
+        "absPath": "/users/jmlopez/workspace/ts-publish/src/index.ts",
+        "emmittedFiles": [
+          "./build/lib/index.js",
+          "./build/lib/index.d.ts"
+        ],
+        "outDirectory": "./build/lib",
+        "lastModified": 1480453700000
+      }
+    }
+  }
+}
