@@ -15,6 +15,7 @@
       "src/ts-compile.ts",
       "src/ts-trial.ts",
       "src/ts-pre-release.ts",
+      "src/ts-run.ts",
       "src/ts-release.ts"
     ],
     "compilerOptions": {

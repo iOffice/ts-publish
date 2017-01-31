@@ -1,6 +1,6 @@
 {
   "name": "ts-publish",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "description": "Typescript project publishing workflow.",
   "license": "MIT",
   "main": "index.js",
@@ -9,6 +9,7 @@
     "ts-trial": "./bin/ts-trial.js",
     "ts-pre-release": "./bin/ts-pre-release.js",
     "ts-release": "./bin/ts-release.js",
+    "ts-run": "./bin/ts-run.js",
     "ts-compile": "./bin/ts-compile.js"
   },
   "scripts": {
