@@ -170,7 +170,7 @@ function compileProject(
   if (!projects) {
     throw Error(`something seems to be wrong with '${tsPublishConfigPath}'\n`);
   }
-  const project: IProject = _.find(projects, (x) => x.name === projectName);
+  const project: IProject = _.find(projects, (x) => x.name === projectName)!;
   if (!project) {
     throw Error(`project must be one of: [${projects.map(x => x.name)}]\n`);
   }

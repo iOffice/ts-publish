@@ -109,7 +109,7 @@ function storeModifiedDates(
     const stats: Stats = statSync(fileName);
     const result: IFileMessages = _.find(results, (file: IFileMessages) => {
       return file.absPath === fileName;
-    });
+    })!;
     if (result) {
       projectStats.stats![fileName] = {
         fileName: result.fileName,
