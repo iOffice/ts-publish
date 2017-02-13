@@ -3,7 +3,6 @@ import {
   IProjectResults,
   formatResults,
   compileProject,
-  exit,
 } from 'ts-publish';
 import * as yargs from 'yargs';
 
@@ -11,7 +10,6 @@ interface IArgs {
   _: string[];
   force: boolean;
   verbose: boolean;
-  program: boolean;
   config: string;
 }
 
@@ -20,11 +18,6 @@ const argv: IArgs = yargs.usage('usage: $0 project')
   .option('v', {
     alias: 'verbose',
     describe: 'print debugging messages',
-    type: 'boolean',
-  })
-  .option('p', {
-    alias: 'program',
-    describe: 'use the typescript program (only with TS > 2.0.7)',
     type: 'boolean',
   })
   .option('c', {
@@ -39,7 +32,7 @@ function _compile(): number {
   let projectResult: IProjectResults;
   try {
     projectResult = compileProject(
-      argv._[0], argv.config || 'ts-publish.json', argv.verbose, argv.program,
+      argv._[0], argv.config || 'ts-publish.json', argv.verbose,
     );
   } catch (e) {
     process.stderr.write(e.message);
@@ -58,4 +51,5 @@ function _compile(): number {
   return 0;
 }
 
-exit(_compile());
+// exit(_compile());
+_compile();

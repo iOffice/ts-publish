@@ -36,7 +36,6 @@ function compile(
   tsOptions: ts.CompilerOptions,
   lintOptions?: any,
   verbose?: boolean,
-  useProgram?: boolean,
 ): TypedObject<IFileMessages> {
   const results: TypedObject<IFileMessages> = {};
   const outDirectory: string = tsOptions.outDir || '.';
@@ -104,10 +103,8 @@ function compile(
     }
 
     if (lintOptions) {
-      const text = useProgram ? '' : file.text;
-      const prog = useProgram ? program : undefined;
-      const linter = new Lint.Linter(options, prog);
-      linter.lint(fileName, text, lintOptions);
+      const linter = new Lint.Linter(options, program);
+      linter.lint(fileName, '', lintOptions);
       const lintResults: Lint.LintResult = linter.getResult();
       const failures: any = JSON.parse(lintResults.output);
       const fileMessages: IFileMessages = results[fileName];
@@ -156,7 +153,6 @@ function compileProject(
   projectName: string,
   tsPublishConfigPath: string,
   verbose?: boolean,
-  useProgram?: boolean,
 ): IProjectResults {
   const projects: IProject[] = readTsPublish(tsPublishConfigPath);
   if (!projects) {
@@ -168,7 +164,7 @@ function compileProject(
   }
   const lintOptions: any = readJSON(project.tsLintConfigPath || 'tslint.json');
   const results = compile(
-    project, project.compilerOptions, lintOptions, verbose, useProgram,
+    project, project.compilerOptions, lintOptions, verbose,
   );
   const output: IProjectResults = {
     results,
