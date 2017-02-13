@@ -25,12 +25,12 @@
     "pre-publish"
   ],
   "devDependencies": {
-    "@types/colors": "^0",
+    "@types/colors": "^1.1.1",
     "@types/lodash": "^4",
     "@types/node": "^6",
     "@types/progress": "^1",
     "@types/yargs": "^0",
-    "colors": "^1",
+    "colors": "^1.1.2",
     "lodash": "^4",
     "progress": "^1",
     "tslint": "^4.0.2",
@@ -44,7 +44,7 @@
     "camelcase": "3.0.0"
   },
   "peerDependencies": {
-    "@types/colors": "^0",
+    "@types/colors": "^1",
     "@types/lodash": "^4",
     "@types/node": "^6",
     "@types/progress": "^1",
