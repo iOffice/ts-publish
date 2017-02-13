@@ -1,6 +1,5 @@
-import { normalize } from 'path';
-import { readFileSync, writeFileSync, statSync, Stats } from 'fs';
-import { IProject, IFileMessages, IMap } from './interfaces';
+import { readFileSync } from 'fs';
+import { IProject } from 'ts-publish';
 import * as _ from 'lodash';
 
 function _parseJSONFile(fileName: string): any {
@@ -38,95 +37,7 @@ function parseTsPublishConfig(path: string): IProject[] {
   return projects;
 }
 
-function loadModifiedFiles(
-  project: IProject,
-  targetDir: string,
-  force?: boolean,
-): string[] {
-  const statsFile: string = `${targetDir}/.ts-stats.json`;
-  let projectMap: IMap<IProject> = _parseJSONFile(statsFile) || {};
-  let cached: boolean = true;
-  if (!projectMap[project.name]) {
-    projectMap[project.name] = {
-      name: project.name,
-      files: [],
-      stats: {},
-    };
-    cached = false;
-  }
-
-  const lib = project.libraries ? project.libraries : [];
-  if (!cached || force) {
-    return lib.length ? project.files.concat(lib) : project.files;
-  }
-
-  const projectStats: IProject = projectMap[project.name];
-  const filesToFilter: string[] = projectStats.files;
-  _.each(project.files, (fileName) => {
-    const nFileName: string = normalize(fileName);
-    if (!_.find(filesToFilter, x => _.endsWith(normalize(x), nFileName))) {
-      filesToFilter.push(nFileName);
-      projectStats.stats![nFileName] = {
-        fileName: nFileName,
-        absPath: nFileName,
-        emmittedFiles: [],
-        outDirectory: '',
-        lastModified: 0,
-      };
-    }
-  });
-  const libFiles = _.map(lib, x => normalize(x));
-  return _.filter(filesToFilter, (fileName) => {
-    let stats: Stats;
-    try {
-      stats = statSync(fileName);
-    } catch (e) {
-      return false;
-    }
-    const lastModified: number = projectStats.stats![fileName].lastModified;
-    return stats.mtime.valueOf() > lastModified;
-  }).concat(libFiles);
-}
-
-function storeModifiedDates(
-  project: IProject,
-  results: IMap<IFileMessages>,
-  emittedFiles: string[],
-  targetDir: string,
-): void {
-  const statsFile: string = `${targetDir}/.ts-stats.json`;
-  let projectMap: IMap<IProject> = _parseJSONFile(statsFile) || {};
-  if (!projectMap[project.name]) {
-    projectMap[project.name] = {
-      name: project.name,
-      files: [],
-      stats: {},
-    };
-  }
-  const projectStats: IProject = projectMap[project.name];
-  _.each(emittedFiles, (fileName) => {
-    projectStats.files.push(fileName);
-    const stats: Stats = statSync(fileName);
-    const result: IFileMessages = _.find(results, (file: IFileMessages) => {
-      return file.absPath === fileName;
-    });
-    if (result) {
-      projectStats.stats![fileName] = {
-        fileName: result.fileName,
-        absPath: result.absPath,
-        emmittedFiles: result.emmittedFiles,
-        outDirectory: result.outDirectory,
-        lastModified: result.messages.length ? 0 : stats.mtime.valueOf(),
-      };
-    }
-  });
-  projectStats.files = _.keys(projectStats.stats);
-  writeFileSync(statsFile, JSON.stringify(projectMap, null, 2));
-}
-
 export {
   getConfig,
   parseTsPublishConfig,
-  loadModifiedFiles,
-  storeModifiedDates,
 };

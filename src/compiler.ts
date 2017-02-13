@@ -5,10 +5,8 @@ import {
   IFileMessages,
   ITSMessage,
   IMap,
-} from './interfaces';
+} from 'ts-publish';
 import {
-  loadModifiedFiles,
-  storeModifiedDates,
   getConfig,
   parseTsPublishConfig,
 } from './cache';
@@ -37,16 +35,12 @@ function compile(
   project: IProject,
   tsOptions: ts.CompilerOptions,
   lintOptions?: any,
-  force?: boolean,
   verbose?: boolean,
   useProgram?: boolean,
 ): IMap<IFileMessages> {
   const results: IMap<IFileMessages> = {};
   const outDirectory: string = tsOptions.outDir || '.';
-  const modifiedFiles: string[] = loadModifiedFiles(project, outDirectory, force);
-  if (!modifiedFiles.length) {
-    return results;
-  }
+  const modifiedFiles: string[] = project.files;
 
   const servicesHost: ts.LanguageServiceHost = {
     getScriptFileNames: () => modifiedFiles,
@@ -155,14 +149,12 @@ function compile(
     }
   });
 
-  storeModifiedDates(project, results, emittedFiles.map(x => x.path), outDirectory);
   return results;
 }
 
 function compileProject(
   projectName: string,
   tsPublishConfigPath: string,
-  force?: boolean,
   verbose?: boolean,
   useProgram?: boolean,
 ): IProjectResults {
@@ -170,13 +162,13 @@ function compileProject(
   if (!projects) {
     throw Error(`something seems to be wrong with '${tsPublishConfigPath}'\n`);
   }
-  const project: IProject = _.find(projects, (x) => x.name === projectName);
+  const project: IProject = _.find(projects, (x) => x.name === projectName)!;
   if (!project) {
     throw Error(`project must be one of: [${projects.map(x => x.name)}]\n`);
   }
   const lintOptions: any = getConfig(project.tsLintConfigPath || 'tslint.json');
   const results = compile(
-    project, project.compilerOptions, lintOptions, force, verbose, useProgram,
+    project, project.compilerOptions, lintOptions, verbose, useProgram,
   );
   const output: IProjectResults = {
     results,

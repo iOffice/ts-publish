@@ -60,15 +60,6 @@ function run(cmd: string, callback?: (output: string) => void | number): number 
   return 0;
 }
 
-/**
- * Utility function to make a git tag and to push.
- */
-function pushTags(tag: string): void {
-  info('TAGGING'.cyan);
-  run(`git tag ${tag}`);
-  run('git push --tags');
-}
-
 function _move(src: string, dest: string, buf: string[]): void {
   const stats = fs.statSync(src);
   if (stats.isFile()) {
