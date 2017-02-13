@@ -1,15 +1,15 @@
 import {
   MessageCategory,
+  TypedObject,
   IProject,
   IProjectResults,
   IFileMessages,
   ITSMessage,
-  IMap,
 } from 'ts-publish';
 import {
-  getConfig,
-  parseTsPublishConfig,
-} from './cache';
+  readJSON,
+  readTsPublish,
+} from './config';
 import * as ts from 'typescript';
 import * as Lint from 'tslint';
 import * as _ from 'lodash';
@@ -37,8 +37,8 @@ function compile(
   lintOptions?: any,
   verbose?: boolean,
   useProgram?: boolean,
-): IMap<IFileMessages> {
-  const results: IMap<IFileMessages> = {};
+): TypedObject<IFileMessages> {
+  const results: TypedObject<IFileMessages> = {};
   const outDirectory: string = tsOptions.outDir || '.';
   const modifiedFiles: string[] = project.files;
 
@@ -158,7 +158,7 @@ function compileProject(
   verbose?: boolean,
   useProgram?: boolean,
 ): IProjectResults {
-  const projects: IProject[] = parseTsPublishConfig(tsPublishConfigPath);
+  const projects: IProject[] = readTsPublish(tsPublishConfigPath);
   if (!projects) {
     throw Error(`something seems to be wrong with '${tsPublishConfigPath}'\n`);
   }
@@ -166,7 +166,7 @@ function compileProject(
   if (!project) {
     throw Error(`project must be one of: [${projects.map(x => x.name)}]\n`);
   }
-  const lintOptions: any = getConfig(project.tsLintConfigPath || 'tslint.json');
+  const lintOptions: any = readJSON(project.tsLintConfigPath || 'tslint.json');
   const results = compile(
     project, project.compilerOptions, lintOptions, verbose, useProgram,
   );

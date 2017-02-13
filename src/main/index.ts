@@ -1,12 +1,11 @@
 import { compile, compileProject } from './compiler';
-import { getConfig, parseTsPublishConfig } from './cache';
+import { readJSON, readTsPublish } from './config';
 import {
   MessageCategory,
   ITSMessage,
   IFileInfo,
   IFileMessages,
-  IFileStats,
-  IMap,
+  TypedObject,
   IProject,
   IProjectResults,
 } from './interfaces';
@@ -125,12 +124,11 @@ export {
   ITSMessage,
   IFileInfo,
   IFileMessages,
-  IFileStats,
   IProjectResults,
-  IMap,
+  TypedObject,
   IProject,
-  getConfig,
-  parseTsPublishConfig,
+  readJSON,
+  readTsPublish,
   compile,
   compileProject,
   formatResults,
@@ -139,6 +137,5 @@ export {
   run,
   info,
   move,
-  pushTags,
   changePackageVersion,
 };

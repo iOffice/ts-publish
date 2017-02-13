@@ -25,17 +25,18 @@
     "pre-publish"
   ],
   "devDependencies": {
+    "@types/chai": "^3.4.34",
     "@types/colors": "^1.1.1",
     "@types/lodash": "^4",
+    "@types/mocha": "^2.2.39",
     "@types/node": "^6",
     "@types/progress": "^1",
-    "@types/yargs": "^0",
+    "chai": "^3.5.0",
     "colors": "^1.1.2",
     "lodash": "^4",
-    "progress": "^1",
+    "mocha": "^3.2.0",
     "tslint": "^4.0.2",
-    "typescript": "^2.0.10",
-    "yargs": "^6"
+    "typescript": "^2.0.10"
   },
   "resolutions": {
     "glob": "5.0.15",
@@ -47,14 +48,11 @@
     "@types/colors": "^1",
     "@types/lodash": "^4",
     "@types/node": "^6",
-    "@types/progress": "^1",
-    "@types/yargs": "^0",
     "colors": "^1",
     "lodash": "^4",
     "progress": "^1",
     "tslint": ">=4.0.0",
-    "typescript": ">=2.0.0",
-    "yargs": "^6"
+    "typescript": ">=2.1.0"
   },
   "repository": {
     "type": "git",

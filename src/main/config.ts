@@ -10,15 +10,14 @@ function _parseJSONFile(fileName: string): any {
   }
 }
 
-function getConfig(name: string, path?: string): any {
-  const base: string = path ? path : process.cwd();
-  const config: string = `${base}/${name}`;
-  return _parseJSONFile(config);
+function readJSON(name: string, path?: string): any {
+  const base: string = path || process.cwd();
+  return _parseJSONFile(`${base}/${name}`);
 }
 
-function parseTsPublishConfig(path: string): IProject[] {
-  const tsOptions = getConfig('tsconfig.json').compilerOptions;
-  const projects: IProject[] = getConfig(path);
+function readTsPublish(path: string): IProject[] {
+  const tsOptions = readJSON('tsconfig.json').compilerOptions;
+  const projects: IProject[] = readJSON(path);
   _.each(projects, (project) => {
     if (project.compilerOptions) {
       const options = _.assign({}, tsOptions, project.compilerOptions);
@@ -38,6 +37,6 @@ function parseTsPublishConfig(path: string): IProject[] {
 }
 
 export {
-  getConfig,
-  parseTsPublishConfig,
-};
+  readJSON,
+  readTsPublish,
+}

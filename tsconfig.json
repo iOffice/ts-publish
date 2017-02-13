@@ -10,7 +10,8 @@
     "noUnusedLocals": true,
     "noEmitHelpers": true,
     "importHelpers": true,
-    "noEmit": true,
+    "noEmit": false,
+    "outDir": "build",
     "baseUrl": ".",
     "paths": {
       "ts-publish": ["src/main"]

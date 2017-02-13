@@ -2,20 +2,11 @@
   {
     "name": "ts-publish",
     "files": [
-      "src/index.ts"
+      "src/main/index.ts",
+      "src/test/index.ts"
     ],
     "compilerOptions": {
-      "outDir": "./build/lib",
-      "declaration": true
-    }
-  },
-  {
-    "name": "bin",
-    "files": [
-      "src/ts-compile.ts"
-    ],
-    "compilerOptions": {
-      "outDir": "./build/bin",
+      "outDir": "./build",
       "declaration": true
     }
   }

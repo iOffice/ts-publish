@@ -17,11 +17,6 @@ interface IArgs {
 
 const argv: IArgs = yargs.usage('usage: $0 project')
   .demand(1)
-  .option('f', {
-    alias: 'force',
-    describe: 'force transpilation for all files in the project',
-    type: 'boolean',
-  })
   .option('v', {
     alias: 'verbose',
     describe: 'print debugging messages',
@@ -44,7 +39,7 @@ function _compile(): number {
   let projectResult: IProjectResults;
   try {
     projectResult = compileProject(
-      argv._[0], argv.config || 'ts-publish.json', argv.force, argv.verbose, argv.program,
+      argv._[0], argv.config || 'ts-publish.json', argv.verbose, argv.program,
     );
   } catch (e) {
     process.stderr.write(e.message);
