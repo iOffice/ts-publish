@@ -152,6 +152,7 @@ function compile(
 function compileProject(
   projectName: string,
   tsPublishConfigPath: string,
+  tsLintConfigPath?: string,
   verbose?: boolean,
 ): IProjectResults {
   const projects: IProject[] = readTsPublish(tsPublishConfigPath);
@@ -162,7 +163,7 @@ function compileProject(
   if (!project) {
     throw Error(`project must be one of: [${projects.map(x => x.name)}]\n`);
   }
-  const lintOptions: any = readJSON(project.tsLintConfigPath || 'tslint.json');
+  const lintOptions: any = readJSON(tsLintConfigPath || project.tsLintConfigPath || 'tslint.json');
   const results = compile(
     project, project.compilerOptions, lintOptions, verbose,
   );

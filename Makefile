@@ -5,7 +5,7 @@ build: clean
 	tsc
 
 test: build
-	mocha build/test/index.js
+	mocha build/test/index.js --timeout 15000
 
 copy:
 	rm -rf ./node_modules/ts-publish && cp -R ./build/ ./node_modules/ts-publish/
