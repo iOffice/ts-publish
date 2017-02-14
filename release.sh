@@ -12,6 +12,7 @@ echo "Has the version number been bumped?"
 read -n1 -r -p "Press Ctrl+C to cancel, or any other key to continue." key
 
 git checkout -b build
+cp build/main/*
 
 echo "Creating git tag v$VERSION..."
 
