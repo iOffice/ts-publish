@@ -3,7 +3,8 @@
     "name": "ts-publish",
     "files": [
       "src/main/index.ts",
-      "src/test/index.ts"
+      "src/test/index.ts",
+      "src/main/ts-compile.ts"
     ],
     "compilerOptions": {
       "outDir": "./build",

@@ -7,5 +7,8 @@ build: clean
 test: build
 	mocha build/test/index.js --timeout 15000
 
-copy:
-	rm -rf ./node_modules/ts-publish && cp -R ./build/ ./node_modules/ts-publish/
+selfBuild: build
+	node build/main/ts-compile.js ts-publish --verbose
+
+release:
+	bash release.sh

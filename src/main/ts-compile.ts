@@ -3,7 +3,7 @@ import {
   IProjectResults,
   formatResults,
   compileProject,
-} from 'ts-publish';
+} from './index';
 
 const verbose = process.argv.indexOf('--verbose') > -1;
 const noLint = process.argv.indexOf('--no-lint') > -1;
@@ -12,7 +12,7 @@ function _compile(): number {
   let projectResult: IProjectResults;
   try {
     projectResult = compileProject(
-      process.argv[0], 'ts-publish.json', noLint ? 'no-lint' : '', verbose,
+      process.argv[2], 'ts-publish.json', noLint ? 'no-lint' : '', verbose,
     );
   } catch (e) {
     process.stderr.write(e.message);
@@ -31,5 +31,6 @@ function _compile(): number {
   return 0;
 }
 
-// exit(_compile());
-_compile();
+process.on('exit', () => {
+  process.exit(_compile());
+});
