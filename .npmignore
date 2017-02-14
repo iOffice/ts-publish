@@ -10,3 +10,4 @@ ts-publish.json
 tsconfig.json
 tslint.json
 yarn.lock
+release.sh

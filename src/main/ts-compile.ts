@@ -31,6 +31,7 @@ function _compile(): number {
   return 0;
 }
 
+const exitNumber = _compile();
 process.on('exit', () => {
-  process.exit(_compile());
+  process.exit(exitNumber);
 });
