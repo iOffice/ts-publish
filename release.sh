@@ -16,6 +16,7 @@ cp build/main/*
 
 echo "Creating git tag v$VERSION..."
 
+git tag v$VERSION -f
 git push --tags -f
 
 echo "Uploading to NPM..."
