@@ -5,7 +5,7 @@ import {
   IProjectResults,
   IFileMessages,
   ITSMessage,
-} from 'ts-publish';
+} from './interfaces';
 import {
   readJSON,
   readTsPublish,
@@ -165,7 +165,7 @@ function compileProject(
   }
   const lintOptions: any = readJSON(tsLintConfigPath || project.tsLintConfigPath || 'tslint.json');
   const results = compile(
-    project, project.compilerOptions, lintOptions, verbose,
+    project, project.compilerOptions || {}, lintOptions, verbose,
   );
   const output: IProjectResults = {
     results,

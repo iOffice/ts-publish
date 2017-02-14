@@ -1,5 +1,5 @@
 import { readFileSync } from 'fs';
-import { IProject } from 'ts-publish';
+import { IProject } from './interfaces';
 import * as _ from 'lodash';
 
 function _parseJSONFile(fileName: string): any {

@@ -1,4 +1,4 @@
-import { TypedObject, IFileMessages, ITSMessage } from 'ts-publish';
+import { TypedObject, IFileMessages, ITSMessage } from './interfaces';
 import * as colors from 'colors';
 import * as _ from 'lodash';
 
