@@ -1,17 +1,15 @@
 import {
   MessageCategory,
+  TypedObject,
   IProject,
   IProjectResults,
   IFileMessages,
   ITSMessage,
-  IMap,
 } from './interfaces';
 import {
-  loadModifiedFiles,
-  storeModifiedDates,
-  getConfig,
-  parseTsPublishConfig,
-} from './cache';
+  readJSON,
+  readTsPublish,
+} from './config';
 import * as ts from 'typescript';
 import * as Lint from 'tslint';
 import * as _ from 'lodash';
@@ -37,16 +35,11 @@ function compile(
   project: IProject,
   tsOptions: ts.CompilerOptions,
   lintOptions?: any,
-  force?: boolean,
   verbose?: boolean,
-  useProgram?: boolean,
-): IMap<IFileMessages> {
-  const results: IMap<IFileMessages> = {};
+): TypedObject<IFileMessages> {
+  const results: TypedObject<IFileMessages> = {};
   const outDirectory: string = tsOptions.outDir || '.';
-  const modifiedFiles: string[] = loadModifiedFiles(project, outDirectory, force);
-  if (!modifiedFiles.length) {
-    return results;
-  }
+  const modifiedFiles: string[] = project.files;
 
   const servicesHost: ts.LanguageServiceHost = {
     getScriptFileNames: () => modifiedFiles,
@@ -110,10 +103,8 @@ function compile(
     }
 
     if (lintOptions) {
-      const text = useProgram ? '' : file.text;
-      const prog = useProgram ? program : undefined;
-      const linter = new Lint.Linter(options, prog);
-      linter.lint(fileName, text, lintOptions);
+      const linter = new Lint.Linter(options, program);
+      linter.lint(fileName, '', lintOptions);
       const lintResults: Lint.LintResult = linter.getResult();
       const failures: any = JSON.parse(lintResults.output);
       const fileMessages: IFileMessages = results[fileName];
@@ -155,28 +146,26 @@ function compile(
     }
   });
 
-  storeModifiedDates(project, results, emittedFiles.map(x => x.path), outDirectory);
   return results;
 }
 
 function compileProject(
   projectName: string,
   tsPublishConfigPath: string,
-  force?: boolean,
+  tsLintConfigPath?: string,
   verbose?: boolean,
-  useProgram?: boolean,
 ): IProjectResults {
-  const projects: IProject[] = parseTsPublishConfig(tsPublishConfigPath);
+  const projects: IProject[] = readTsPublish(tsPublishConfigPath);
   if (!projects) {
     throw Error(`something seems to be wrong with '${tsPublishConfigPath}'\n`);
   }
-  const project: IProject = _.find(projects, (x) => x.name === projectName);
+  const project: IProject = _.find(projects, (x) => x.name === projectName)!;
   if (!project) {
     throw Error(`project must be one of: [${projects.map(x => x.name)}]\n`);
   }
-  const lintOptions: any = getConfig(project.tsLintConfigPath || 'tslint.json');
+  const lintOptions: any = readJSON(tsLintConfigPath || project.tsLintConfigPath || 'tslint.json');
   const results = compile(
-    project, project.compilerOptions, lintOptions, force, verbose, useProgram,
+    project, project.compilerOptions || {}, lintOptions, verbose,
   );
   const output: IProjectResults = {
     results,

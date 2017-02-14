@@ -1,4 +1,5 @@
 type MessageCategory = 'error' | 'warning' | 'info' | 'log' | 'debug';
+type TypedObject<T> = { [key: string]: T };
 
 interface ITSMessage {
   message: string;
@@ -21,17 +22,10 @@ interface IFileMessages extends IFileInfo {
   messages: ITSMessage[];
 }
 
-interface IFileStats extends IFileInfo {
-  lastModified: number;
-}
-
 interface IProject {
   name: string;
   files: string[];
   libraries?: string[];
-  stats?: {
-    [index: string]: IFileStats;
-  };
   compilerOptions?: any;
   tsLintConfigPath?: string;
 }
@@ -40,20 +34,15 @@ interface IProjectResults {
   numMessages: number;
   numErrors: number;
   numWarnings: number;
-  results: IMap<IFileMessages>;
-}
-
-interface IMap<T> {
-  [index: string]: T;
+  results: TypedObject<IFileMessages>;
 }
 
 export {
   MessageCategory,
+  TypedObject,
   ITSMessage,
   IFileInfo,
   IFileMessages,
-  IFileStats,
-  IMap,
   IProject,
   IProjectResults,
-};
+}

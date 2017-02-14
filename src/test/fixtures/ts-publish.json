@@ -1,0 +1,38 @@
+[
+  {
+    "name": "test-only-errors",
+    "files": [
+      "src/test/fixtures/onlyErrors.ts"
+    ],
+    "compilerOptions": {
+      "noEmit": true
+    }
+  },
+  {
+    "name": "test-only-warnings",
+    "files": [
+      "src/test/fixtures/onlyWarnings.ts"
+    ],
+    "compilerOptions": {
+      "noEmit": true
+    }
+  },
+  {
+    "name": "test-both-errors-and-warnings",
+    "files": [
+      "src/test/fixtures/bothErrorsAndWarnings.ts"
+    ],
+    "compilerOptions": {
+      "noEmit": true
+    }
+  },
+  {
+    "name": "test-valid",
+    "files": [
+      "src/test/fixtures/valid.ts"
+    ],
+    "compilerOptions": {
+      "noEmit": true
+    }
+  }
+]

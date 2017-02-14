@@ -10,5 +10,3 @@ ts-publish.json
 tsconfig.json
 tslint.json
 yarn.lock
-bin/.ts-stats.json
-.ts-stats.json

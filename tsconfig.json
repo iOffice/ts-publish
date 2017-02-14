@@ -2,22 +2,26 @@
   "compilerOptions": {
     "declaration": true,
     "noImplicitAny": true,
+    "suppressImplicitAnyIndexErrors": true,
     "strictNullChecks": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "noUnusedParameters": true,
     "noUnusedLocals": true,
     "noEmitHelpers": true,
+    "importHelpers": true,
+    "noEmit": false,
+    "outDir": "build",
     "baseUrl": ".",
     "paths": {
-      "ts-publish": ["src"]
+      "ts-publish": ["src/main"]
     },
-    "outDir": "build",
     "rootDir": "src",
-    "target": "es3"
+    "target": "es5"
   },
   "exclude": [
     "build",
-    "node_modules"
+    "node_modules",
+    "src/test/fixtures"
   ]
 }

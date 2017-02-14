@@ -4,14 +4,11 @@ clean:
 build: clean
 	tsc
 
-copy:
-	rm -rf ./node_modules/ts-publish && cp -R ./build/ ./node_modules/ts-publish/
+test: build
+	mocha build/test/index.js --timeout 15000
 
-trial: build copy
-	node ./build/ts-trial.js ./build/_hook.js $(TARGET)
+selfBuild: build
+	node build/main/ts-compile.js ts-publish --verbose
 
-preRelease: build copy
-	node ./build/ts-pre-release.js ./build/_hook.js
-
-release: build copy
-	node ./build/ts-release.js ./build/_hook.js
+release:
+	bash release.sh

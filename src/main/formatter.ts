@@ -1,4 +1,4 @@
-import { IFileMessages, IMap, ITSMessage } from './interfaces';
+import { TypedObject, IFileMessages, ITSMessage } from './interfaces';
 import * as colors from 'colors';
 import * as _ from 'lodash';
 
@@ -78,7 +78,7 @@ function _formatResults(buf: string[], messages: string[][]): void {
   });
 }
 
-function formatResults(results: IMap<IFileMessages>): string {
+function formatResults(results: TypedObject<IFileMessages>): string {
   const buffer: string[] = [];
   const fileNames: string[] = _.keys(results).sort();
   _.each(fileNames, fileName => {
@@ -111,4 +111,4 @@ function formatResults(results: IMap<IFileMessages>): string {
 
 export {
   formatResults,
-};
+}
