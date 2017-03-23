@@ -46,7 +46,7 @@ function compile(
     getScriptVersion: () => '',
     getCurrentDirectory: () => process.cwd(),
     getScriptSnapshot: (fileName) => {
-      if (!fs.existsSync(fileName)) {
+      if (!fs.existsSync(fileName) || fs.statSync(fileName).isDirectory()) {
         return undefined;
       }
 

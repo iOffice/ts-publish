@@ -1,6 +1,6 @@
 {
   "name": "ts-publish",
-  "version": "1.0.2",
+  "version": "1.1.0",
   "description": "Typescript project compiler - integrates compiler and linter.",
   "license": "MIT",
   "main": "index.js",
@@ -15,28 +15,27 @@
   ],
   "devDependencies": {
     "@types/chai": "^3.4.34",
-    "@types/colors": "^1.1.1",
-    "@types/lodash": "^4",
     "@types/mocha": "^2.2.39",
     "@types/node": "^6",
-    "@types/progress": "^1",
     "chai": "^3.5.0",
-    "colors": "^1.1.2",
-    "lodash": "^4",
     "mocha": "^3.2.0",
-    "progress": "^1.1.8",
-    "tslint": "^4.0.2",
-    "typescript": "^2.0.10"
+    "tslint": "^4.5.0",
+    "typescript": "^2.2.0"
   },
   "peerDependencies": {
-    "colors": "^1",
-    "lodash": "^4",
-    "progress": "^1",
-    "tslint": ">=4.0.0",
-    "typescript": ">=2.1.0"
+    "tslint": ">=4.5.0",
+    "typescript": ">=2.2.0"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/iOffice/ts-publish"
+  },
+  "dependencies": {
+    "@types/colors": "^1",
+    "@types/lodash": "^4",
+    "@types/progress": "^1",
+    "colors": "^1.1.2",
+    "lodash": "^4.17.4",
+    "progress": "^1.1.8"
   }
 }
