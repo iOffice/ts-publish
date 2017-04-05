@@ -111,4 +111,4 @@ function formatResults(results: TypedObject<IFileMessages>): string {
 
 export {
   formatResults,
-}
+};

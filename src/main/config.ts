@@ -39,4 +39,4 @@ function readTsPublish(path: string): IProject[] {
 export {
   readJSON,
   readTsPublish,
-}
+};

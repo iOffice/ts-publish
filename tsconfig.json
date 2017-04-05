@@ -16,7 +16,6 @@
     "paths": {
       "ts-publish": ["src/main"]
     },
-    "lib": ["es2015"],
     "rootDir": "src",
     "target": "es5"
   },
