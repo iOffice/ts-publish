@@ -104,7 +104,8 @@ function compile(
 
     if (lintOptions) {
       const linter = new Lint.Linter(options, program);
-      linter.lint(fileName, '', lintOptions);
+      const configFile = Lint.Configuration.parseConfigFile(lintOptions);
+      linter.lint(fileName, '', configFile);
       const lintResults: Lint.LintResult = linter.getResult();
       const failures: any = JSON.parse(lintResults.output);
       const fileMessages: IFileMessages = results[fileName];
