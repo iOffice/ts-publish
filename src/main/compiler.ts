@@ -14,6 +14,7 @@ import * as ts from 'typescript';
 import * as Lint from 'tslint';
 import * as _ from 'lodash';
 import * as fs from 'fs';
+import * as pth from 'path';
 import * as ProgressBar from 'progress';
 
 function cout(msg: string, verbose?: boolean): void {
@@ -96,7 +97,7 @@ function compile(
       results[fileName] = {
         fileName,
         outDirectory,
-        absPath: file.path,
+        absPath: pth.resolve(file.fileName),
         emmittedFiles: output.outputFiles.map(x => x.name),
         messages: [],
       };
@@ -126,8 +127,8 @@ function compile(
   });
 
   _.each(allDiagnostics, (diagnostic) => {
-    const file: ts.SourceFile = diagnostic.file;
-    if (!file || !file.fileName) {
+    const file = diagnostic.file;
+    if (!file || !file.fileName || !diagnostic.start) {
       return;
     }
     const fileMessages: IFileMessages = results[file.fileName];
