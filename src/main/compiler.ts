@@ -13,7 +13,6 @@ import {
 import * as ts from 'typescript';
 import * as Lint from 'tslint';
 import * as _ from 'lodash';
-import * as fs from 'fs';
 import * as pth from 'path';
 import * as ProgressBar from 'progress';
 
@@ -41,26 +40,6 @@ function compile(
   const results: TypedObject<IFileMessages> = {};
   const outDirectory: string = tsOptions.outDir || '.';
   const modifiedFiles: string[] = project.files;
-
-  const servicesHost: ts.LanguageServiceHost = {
-    getScriptFileNames: () => modifiedFiles,
-    getScriptVersion: () => '',
-    getCurrentDirectory: () => process.cwd(),
-    getScriptSnapshot: (fileName) => {
-      if (!fs.existsSync(fileName) || fs.statSync(fileName).isDirectory()) {
-        return undefined;
-      }
-
-      return ts.ScriptSnapshot.fromString(fs.readFileSync(fileName).toString());
-    },
-    getCompilationSettings: () => tsOptions,
-    getDefaultLibFileName: (options) => ts.getDefaultLibFilePath(options),
-  };
-
-  const services: ts.LanguageService = ts.createLanguageService(
-    servicesHost,
-    ts.createDocumentRegistry(),
-  );
 
   cout(`Creating program: ${project.name}`, verbose);
   _.each(modifiedFiles, x => cout(`  - ${x}`, verbose));
@@ -91,14 +70,13 @@ function compile(
     if (!file || !file.fileName) {
       return;
     }
-    const output: ts.EmitOutput = services.getEmitOutput(file.fileName);
+
     const fileName: string = file.fileName;
     if (!results[fileName]) {
       results[fileName] = {
         fileName,
         outDirectory,
         absPath: pth.resolve(file.fileName),
-        emmittedFiles: output.outputFiles.map(x => x.name),
         messages: [],
       };
     }

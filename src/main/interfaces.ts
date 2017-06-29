@@ -14,7 +14,6 @@ interface ITSMessage {
 interface IFileInfo {
   fileName: string;
   absPath: string;
-  emmittedFiles: string[];
   outDirectory: string;
 }
 
