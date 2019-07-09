@@ -3,6 +3,9 @@
 [![Shields.io](https://img.shields.io/badge/badges%20by-shields.io-ff69b4.svg)](https://shields.io/)
 [![License](https://img.shields.io/npm/l/ts-publish.svg)](LICENSE)
 
+# DEPRECATED
+
+Replaced by private project. Published contents can be found on npm `@ioffice/tc-builder`.
 
 ## ts-publish
 
